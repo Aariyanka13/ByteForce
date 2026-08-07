@@ -1,6 +1,9 @@
-﻿namespace SmartRecruitmentMatchingPlatform.Exceptions
+﻿namespace SmartRecruitmentMatchingPlatform.Exceptions;
+
+public class UnauthorizedException : Exception
 {
-    public class UnauthorizedException
+    public UnauthorizedException(string message)
+        : base(message)
     {
     }
 }

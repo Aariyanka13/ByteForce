@@ -1,6 +1,9 @@
-﻿namespace SmartRecruitmentMatchingPlatform.Exceptions
+﻿namespace SmartRecruitmentMatchingPlatform.Exceptions;
+
+public class ForbiddenException : Exception
 {
-    public class ForbiddenException
+    public ForbiddenException(string message)
+        : base(message)
     {
     }
 }

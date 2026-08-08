@@ -127,6 +127,14 @@ namespace SmartRecruitmentMatchingPlatform
             builder.Services.AddScoped<
                 IEmployerProfileService,
                 EmployerProfileService>();
+           
+            builder.Services.AddScoped<
+                IVacancyRepository,
+                VacancyRepository>();
+
+            builder.Services.AddScoped<
+                IVacancyService,
+                VacancyService>();
 
             builder.Services.AddScoped<
                 IJobSeekerRepository,

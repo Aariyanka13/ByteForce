@@ -22,7 +22,9 @@ public class ApplicationDbContext : DbContext
     public DbSet<JobSeekerSkill> JobSeekerSkills => Set<JobSeekerSkill>();
 
     public DbSet<CvDocument> CvDocuments => Set<CvDocument>();
+    public DbSet<Vacancy> Vacancies => Set<Vacancy>();
 
+    public DbSet<VacancySkill> VacancySkills => Set<VacancySkill>();
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

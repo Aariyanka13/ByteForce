@@ -5,12 +5,16 @@ namespace SmartRecruitmentMatchingPlatform.Data;
 
 public class ApplicationDbContext : DbContext
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+    public ApplicationDbContext(
+        DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
     }
 
     public DbSet<User> Users => Set<User>();
+
+    public DbSet<EmployerProfile> EmployerProfiles => Set<EmployerProfile>();
+
     public DbSet<JobSeekerProfile> JobSeekerProfiles => Set<JobSeekerProfile>();
 
     public DbSet<Skill> Skills => Set<Skill>();
@@ -26,6 +30,4 @@ public class ApplicationDbContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(
             typeof(ApplicationDbContext).Assembly);
     }
-
-
 }

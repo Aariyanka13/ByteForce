@@ -121,8 +121,16 @@ namespace SmartRecruitmentMatchingPlatform
                 JwtTokenService>();
 
             builder.Services.AddScoped<
-    IJobSeekerRepository,
-    JobSeekerRepository>();
+               IEmployerProfileRepository,
+               EmployerProfileRepository>();
+
+            builder.Services.AddScoped<
+                IEmployerProfileService,
+                EmployerProfileService>();
+
+            builder.Services.AddScoped<
+                IJobSeekerRepository,
+                JobSeekerRepository>();
 
             builder.Services.AddScoped<
                 ISkillRepository,

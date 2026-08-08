@@ -108,6 +108,14 @@ namespace SmartRecruitmentMatchingPlatform
                 IJwtTokenService,
                 JwtTokenService>();
 
+            builder.Services.AddScoped<
+                IEmployerProfileRepository,
+                EmployerProfileRepository>();
+
+            builder.Services.AddScoped<
+                IEmployerProfileService,
+                EmployerProfileService>();
+
             var app = builder.Build();
 
             app.UseMiddleware<ExceptionHandlingMiddleware>();

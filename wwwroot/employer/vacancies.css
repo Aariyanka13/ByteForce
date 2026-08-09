@@ -1,0 +1,375 @@
+﻿* {
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --background: #f4f7fb;
+    --card: #ffffff;
+    --text-primary: #172033;
+    --text-secondary: #64748b;
+    --border: #dbe3ee;
+    --focus: rgba(37, 99, 235, 0.15);
+    --danger: #dc2626;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 48px 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    background: linear-gradient(180deg, #eef4ff 0, var(--background) 220px);
+    color: var(--text-primary);
+}
+
+main {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+header {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+    header > span {
+        display: inline-block;
+        margin-bottom: 10px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: #dbeafe;
+        color: var(--primary-dark);
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    header h1 {
+        margin: 0 0 10px;
+        font-size: 34px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+
+        header h1::after {
+            content: "";
+            display: block;
+            width: 55px;
+            height: 4px;
+            margin: 12px auto 0;
+            border-radius: 999px;
+            background: var(--primary);
+        }
+
+    header p {
+        margin: 0;
+        color: var(--text-secondary);
+        font-size: 15px;
+    }
+
+section {
+    margin-bottom: 28px;
+    padding: 34px;
+    background: var(--card);
+    border: 1px solid rgba(219, 227, 238, 0.8);
+    border-radius: 16px;
+    box-shadow: 0 14px 35px rgba(15, 23, 42, 0.07), 0 3px 8px rgba(15, 23, 42, 0.04);
+}
+
+    section > div:first-child {
+        margin-bottom: 26px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--border);
+    }
+
+    section h2 {
+        margin: 0 0 7px;
+        font-size: 22px;
+    }
+
+    section > div:first-child p {
+        margin: 0;
+        color: var(--text-secondary);
+        font-size: 14px;
+    }
+
+#vacancyForm > div {
+    margin-bottom: 21px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #334155;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    outline: none;
+    background: #ffffff;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 15px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+    input:hover,
+    textarea:hover,
+    select:hover {
+        border-color: #b7c5d8;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px var(--focus);
+    }
+
+textarea {
+    min-height: 130px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+#skillsContainer {
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: #f8fafc;
+}
+
+    #skillsContainer p {
+        margin: 0;
+        color: var(--text-secondary);
+        font-size: 14px;
+    }
+
+button[type="submit"] {
+    width: 100%;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 9px;
+    background: var(--primary);
+    color: white;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+    button[type="submit"]:hover {
+        background: var(--primary-dark);
+        box-shadow: 0 8px 18px rgba(37, 99, 235, 0.22);
+        transform: translateY(-1px);
+    }
+
+    button[type="submit"]:active {
+        transform: translateY(0);
+    }
+
+#vacancyMessage {
+    min-height: 22px;
+    margin: 18px 0 0;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+#vacancyList {
+    min-height: 80px;
+}
+
+    #vacancyList > p {
+        margin: 0;
+        padding: 22px;
+        border: 1px dashed var(--border);
+        border-radius: 9px;
+        text-align: center;
+        color: var(--text-secondary);
+        background: #f8fafc;
+    }
+#skillsContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 18px;
+}
+
+.skill-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #ffffff;
+    cursor: pointer;
+    font-weight: 500;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+    .skill-option:hover {
+        border-color: #93b4f5;
+        background: #f8fbff;
+    }
+
+    .skill-option input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        margin: 0;
+        flex: 0 0 auto;
+        cursor: pointer;
+        accent-color: var(--primary);
+    }
+
+    .skill-option span {
+        line-height: 1;
+    }
+    
+    #skillsContainer {
+        grid-template-columns: 1fr;
+    }
+.vacancy-card {
+    margin-bottom: 16px;
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+}
+
+    .vacancy-card:last-child {
+        margin-bottom: 0;
+    }
+
+.vacancy-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 14px;
+}
+
+    .vacancy-card-header h3 {
+        margin: 0 0 5px;
+        font-size: 18px;
+        color: var(--text-primary);
+    }
+
+    .vacancy-card-header p {
+        margin: 0;
+        color: var(--text-secondary);
+        font-size: 14px;
+    }
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 72px;
+    padding: 6px 11px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+    .status-badge.open {
+        background: #dcfce7;
+        color: #15803d;
+    }
+
+    .status-badge.closed {
+        background: #fee2e2;
+        color: #b91c1c;
+    }
+
+.vacancy-description {
+    margin: 0 0 16px;
+    color: #475569;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.vacancy-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+    .vacancy-details span {
+        padding: 7px 10px;
+        border-radius: 7px;
+        background: #f1f5f9;
+        color: #475569;
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+.close-vacancy-button {
+    padding: 10px 14px;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    background: #fff7f7;
+    color: #b91c1c;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+    .close-vacancy-button:hover {
+        background: #fee2e2;
+        border-color: #fca5a5;
+    }
+
+.vacancy-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.edit-vacancy-button {
+    padding: 10px 14px;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    background: #eff6ff;
+    color: var(--primary-dark);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+    .edit-vacancy-button:hover {
+        background: #dbeafe;
+        border-color: #93c5fd;
+    }
+@media (max-width: 700px) {
+    body {
+        padding: 30px 15px;
+    }
+
+    header h1 {
+        font-size: 28px;
+    }
+
+    section {
+        padding: 24px 20px;
+        border-radius: 12px;
+    }
+}

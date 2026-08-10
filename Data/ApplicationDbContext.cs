@@ -25,6 +25,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<Vacancy> Vacancies => Set<Vacancy>();
 
     public DbSet<VacancySkill> VacancySkills => Set<VacancySkill>();
+
+    public DbSet<JobApplication> JobApplications => Set<JobApplication>();
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

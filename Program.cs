@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -28,7 +29,12 @@ namespace SmartRecruitmentMatchingPlatform
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(
+            new JsonStringEnumConverter());
+    });
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(options =>
             {
@@ -163,6 +169,26 @@ namespace SmartRecruitmentMatchingPlatform
             builder.Services.AddScoped<
                 IFileStorageService,
                 LocalFileStorageService>();
+
+            builder.Services.AddScoped<
+                IJobSearchRepository,
+                JobSearchRepository>();
+
+            builder.Services.AddScoped<
+                IApplicationRepository,
+                ApplicationRepository>();
+
+            builder.Services.AddScoped<
+                IMatchingService,
+                MatchingService>();
+
+            builder.Services.AddScoped<
+                IJobSearchService,
+                JobSearchService>();
+
+            builder.Services.AddScoped<
+                IApplicationService,
+                ApplicationService>();
 
             var app = builder.Build();
 

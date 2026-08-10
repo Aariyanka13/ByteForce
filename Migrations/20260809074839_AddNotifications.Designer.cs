@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartRecruitmentMatchingPlatform.Data;
 
@@ -11,9 +12,11 @@ using SmartRecruitmentMatchingPlatform.Data;
 namespace SmartRecruitmentMatchingPlatform.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260809074839_AddNotifications")]
+    partial class AddNotifications
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -111,65 +114,6 @@ namespace SmartRecruitmentMatchingPlatform.Migrations
                         .IsUnique();
 
                     b.ToTable("EmployerProfiles");
-                });
-
-            modelBuilder.Entity("SmartRecruitmentMatchingPlatform.Models.Entities.JobApplication", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("AppliedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("EducationScore")
-                        .HasPrecision(5, 2)
-                        .HasColumnType("decimal(5,2)");
-
-                    b.Property<decimal>("ExperienceScore")
-                        .HasPrecision(5, 2)
-                        .HasColumnType("decimal(5,2)");
-
-                    b.Property<int>("JobSeekerProfileId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("LocationScore")
-                        .HasPrecision(5, 2)
-                        .HasColumnType("decimal(5,2)");
-
-                    b.Property<decimal>("MatchScore")
-                        .HasPrecision(5, 2)
-                        .HasColumnType("decimal(5,2)");
-
-                    b.Property<decimal>("SkillScore")
-                        .HasPrecision(5, 2)
-                        .HasColumnType("decimal(5,2)");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("VacancyId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppliedAt");
-
-                    b.HasIndex("Status");
-
-                    b.HasIndex("VacancyId");
-
-                    b.HasIndex("JobSeekerProfileId", "VacancyId")
-                        .IsUnique();
-
-                    b.ToTable("JobApplications", (string)null);
                 });
 
             modelBuilder.Entity("SmartRecruitmentMatchingPlatform.Models.Entities.JobSeekerProfile", b =>
@@ -438,25 +382,6 @@ namespace SmartRecruitmentMatchingPlatform.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("SmartRecruitmentMatchingPlatform.Models.Entities.JobApplication", b =>
-                {
-                    b.HasOne("SmartRecruitmentMatchingPlatform.Models.Entities.JobSeekerProfile", "JobSeekerProfile")
-                        .WithMany()
-                        .HasForeignKey("JobSeekerProfileId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("SmartRecruitmentMatchingPlatform.Models.Entities.Vacancy", "Vacancy")
-                        .WithMany()
-                        .HasForeignKey("VacancyId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("JobSeekerProfile");
-
-                    b.Navigation("Vacancy");
                 });
 
             modelBuilder.Entity("SmartRecruitmentMatchingPlatform.Models.Entities.JobSeekerProfile", b =>

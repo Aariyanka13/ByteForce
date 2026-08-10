@@ -171,24 +171,20 @@ namespace SmartRecruitmentMatchingPlatform
                 LocalFileStorageService>();
 
             builder.Services.AddScoped<
-                IJobSearchRepository,
-                JobSearchRepository>();
+                 INotificationRepository,
+                 NotificationRepository>();
 
             builder.Services.AddScoped<
-                IApplicationRepository,
-                ApplicationRepository>();
+                INotificationService,
+                NotificationService>();
 
             builder.Services.AddScoped<
-                IMatchingService,
-                MatchingService>();
+                IAdminRepository,
+                AdminRepository>();
 
             builder.Services.AddScoped<
-                IJobSearchService,
-                JobSearchService>();
-
-            builder.Services.AddScoped<
-                IApplicationService,
-                ApplicationService>();
+                IAdminService,
+                AdminService>();
 
             var app = builder.Build();
 
@@ -197,7 +193,12 @@ namespace SmartRecruitmentMatchingPlatform
                 var dbContext = scope.ServiceProvider
                     .GetRequiredService<ApplicationDbContext>();
 
-                DatabaseSeeder.SeedAsync(dbContext)
+                var passwordHasher = scope.ServiceProvider
+                    .GetRequiredService<IPasswordHasher<User>>();
+
+                DatabaseSeeder.SeedAsync(
+                        dbContext,
+                        passwordHasher)
                     .GetAwaiter()
                     .GetResult();
             }
@@ -209,7 +210,7 @@ namespace SmartRecruitmentMatchingPlatform
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
 
             app.UseAuthentication();

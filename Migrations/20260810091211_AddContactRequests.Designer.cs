@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartRecruitmentMatchingPlatform.Data;
 
@@ -11,9 +12,11 @@ using SmartRecruitmentMatchingPlatform.Data;
 namespace SmartRecruitmentMatchingPlatform.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260810091211_AddContactRequests")]
+    partial class AddContactRequests
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -272,6 +275,50 @@ namespace SmartRecruitmentMatchingPlatform.Migrations
                     b.ToTable("JobSeekerSkills", (string)null);
                 });
 
+            modelBuilder.Entity("SmartRecruitmentMatchingPlatform.Models.Entities.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsRead")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<int?>("RelatedEntityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notifications", (string)null);
+                });
+
             modelBuilder.Entity("SmartRecruitmentMatchingPlatform.Models.Entities.Skill", b =>
                 {
                     b.Property<int>("Id")
@@ -414,6 +461,33 @@ namespace SmartRecruitmentMatchingPlatform.Migrations
                     b.ToTable("VacancySkills", (string)null);
                 });
 
+            modelBuilder.Entity("SmartRecruitmentMatchingPlatform.Models.Entities.ContactRequest", b =>
+                {
+                    b.HasOne("SmartRecruitmentMatchingPlatform.Models.Entities.EmployerProfile", "EmployerProfile")
+                        .WithMany()
+                        .HasForeignKey("EmployerProfileId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SmartRecruitmentMatchingPlatform.Models.Entities.JobApplication", "JobApplication")
+                        .WithMany()
+                        .HasForeignKey("JobApplicationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SmartRecruitmentMatchingPlatform.Models.Entities.JobSeekerProfile", "JobSeekerProfile")
+                        .WithMany()
+                        .HasForeignKey("JobSeekerProfileId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("EmployerProfile");
+
+                    b.Navigation("JobApplication");
+
+                    b.Navigation("JobSeekerProfile");
+                });
+
             modelBuilder.Entity("SmartRecruitmentMatchingPlatform.Models.Entities.CvDocument", b =>
                 {
                     b.HasOne("SmartRecruitmentMatchingPlatform.Models.Entities.JobSeekerProfile", "JobSeekerProfile")
@@ -485,6 +559,47 @@ namespace SmartRecruitmentMatchingPlatform.Migrations
                     b.Navigation("Skill");
                 });
 
+            modelBuilder.Entity("SmartRecruitmentMatchingPlatform.Models.Entities.Notification", b =>
+                {
+                    b.HasOne("SmartRecruitmentMatchingPlatform.Models.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SmartRecruitmentMatchingPlatform.Models.Entities.Vacancy", b =>
+                {
+                    b.HasOne("SmartRecruitmentMatchingPlatform.Models.Entities.EmployerProfile", "EmployerProfile")
+                        .WithMany()
+                        .HasForeignKey("EmployerProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("EmployerProfile");
+                });
+
+            modelBuilder.Entity("SmartRecruitmentMatchingPlatform.Models.Entities.VacancySkill", b =>
+                {
+                    b.HasOne("SmartRecruitmentMatchingPlatform.Models.Entities.Skill", "Skill")
+                        .WithMany("VacancySkills")
+                        .HasForeignKey("SkillId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SmartRecruitmentMatchingPlatform.Models.Entities.Vacancy", "Vacancy")
+                        .WithMany("VacancySkills")
+                        .HasForeignKey("VacancyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Skill");
+
+                    b.Navigation("Vacancy");
+                });
+
             modelBuilder.Entity("SmartRecruitmentMatchingPlatform.Models.Entities.JobSeekerProfile", b =>
                 {
                     b.Navigation("CvDocument");
@@ -495,6 +610,13 @@ namespace SmartRecruitmentMatchingPlatform.Migrations
             modelBuilder.Entity("SmartRecruitmentMatchingPlatform.Models.Entities.Skill", b =>
                 {
                     b.Navigation("JobSeekerSkills");
+
+                    b.Navigation("VacancySkills");
+                });
+
+            modelBuilder.Entity("SmartRecruitmentMatchingPlatform.Models.Entities.Vacancy", b =>
+                {
+                    b.Navigation("VacancySkills");
                 });
 #pragma warning restore 612, 618
         }

@@ -47,9 +47,8 @@ public class ApplicationRepository : IApplicationRepository
         await Applications.AddAsync(application);
     }
 
-    public async Task<JobApplication?>
-        GetByIdWithDetailsAsync(
-            int applicationId)
+    public async Task<JobApplication?> GetByIdWithDetailsAsync(
+        int applicationId)
     {
         return await Applications
             .AsNoTracking()
@@ -63,10 +62,9 @@ public class ApplicationRepository : IApplicationRepository
                 a.Id == applicationId);
     }
 
-    public async Task<JobApplication?>
-        GetOwnedByEmployerAsync(
-            int applicationId,
-            int employerProfileId)
+    public async Task<JobApplication?> GetOwnedByEmployerAsync(
+        int applicationId,
+        int employerProfileId)
     {
         return await Applications
             .Include(a => a.JobSeekerProfile)
@@ -79,12 +77,11 @@ public class ApplicationRepository : IApplicationRepository
                     employerProfileId);
     }
 
-    public async Task<List<JobApplication>>
-        GetMineAsync(
-            int profileId,
-            ApplicationStatus? status,
-            int page,
-            int pageSize)
+    public async Task<List<JobApplication>> GetMineAsync(
+        int profileId,
+        ApplicationStatus? status,
+        int page,
+        int pageSize)
     {
         var query = Applications
             .AsNoTracking()
@@ -124,9 +121,8 @@ public class ApplicationRepository : IApplicationRepository
         return await query.CountAsync();
     }
 
-    public async Task<List<JobApplication>>
-        GetApplicantsAsync(
-            int vacancyId)
+    public async Task<List<JobApplication>> GetApplicantsAsync(
+        int vacancyId)
     {
         return await Applications
             .AsNoTracking()
@@ -141,10 +137,9 @@ public class ApplicationRepository : IApplicationRepository
             .ToListAsync();
     }
 
-    public async Task<JobApplication?>
-        GetByVacancyAndCandidateAsync(
-            int vacancyId,
-            int jobSeekerProfileId)
+    public async Task<JobApplication?> GetByVacancyAndCandidateAsync(
+        int vacancyId,
+        int jobSeekerProfileId)
     {
         return await Applications
             .AsNoTracking()

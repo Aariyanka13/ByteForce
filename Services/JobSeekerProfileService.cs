@@ -65,6 +65,7 @@ public class JobSeekerProfileService : IJobSeekerProfileService
     public async Task<JobSeekerProfileResponseDto> UpdateSkillsAsync(
         int userId,
         UpdateJobSeekerSkillsDto request)
+
     {
         var profile = await _jobSeekerRepository
             .GetWithDetailsByUserIdAsync(userId)
@@ -89,6 +90,7 @@ public class JobSeekerProfileService : IJobSeekerProfileService
             profile,
             request.SkillIds);
 
+
         profile.UpdatedAt = DateTime.UtcNow;
 
         await _jobSeekerRepository.SaveChangesAsync();
@@ -99,6 +101,69 @@ public class JobSeekerProfileService : IJobSeekerProfileService
                 "Job seeker profile was not found.");
 
         return MapProfile(updatedProfile);
+    }
+    public async Task<JobSeekerDashboardDto> GetDashboardAsync(int userId)
+    {
+        var profile = await _jobSeekerRepository
+            .GetWithDetailsByUserIdAsync(userId)
+            ?? throw new NotFoundException(
+                "Job seeker profile was not found.");
+
+        var missingItems = new List<string>();
+
+        if (string.IsNullOrWhiteSpace(profile.Phone))
+        {
+            missingItems.Add("Phone");
+        }
+
+        if (string.IsNullOrWhiteSpace(profile.Location))
+        {
+            missingItems.Add("Location");
+        }
+
+        if (profile.EducationLevel is null)
+        {
+            missingItems.Add("Education Level");
+        }
+
+        if (string.IsNullOrWhiteSpace(profile.ProfileSummary))
+        {
+            missingItems.Add("Profile Summary");
+        }
+
+        if (!profile.JobSeekerSkills.Any())
+        {
+            missingItems.Add("Skills");
+        }
+
+        if (profile.CvDocument is null)
+        {
+            missingItems.Add("CV");
+        }
+
+        const int totalItems = 6;
+
+        var completedItems =
+            totalItems - missingItems.Count;
+
+        var percentage =
+            (int)Math.Round(
+                completedItems * 100.0 / totalItems);
+
+        return new JobSeekerDashboardDto
+        {
+            Profile = MapProfile(profile),
+
+            ProfileCompleteness = new ProfileCompletenessDto
+            {
+                Percentage = percentage,
+                MissingItems = missingItems
+            },
+
+            SkillCount = profile.JobSeekerSkills.Count,
+
+            HasCv = profile.CvDocument is not null
+        };
     }
 
     private static JobSeekerProfileResponseDto MapProfile(

@@ -13,4 +13,6 @@ public interface IJobSeekerProfileService
     Task<JobSeekerProfileResponseDto> UpdateSkillsAsync(
         int userId,
         UpdateJobSeekerSkillsDto request);
+
+    Task<JobSeekerDashboardDto> GetDashboardAsync(int userId);
 }

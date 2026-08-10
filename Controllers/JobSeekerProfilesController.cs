@@ -41,6 +41,15 @@ public class JobSeekerProfilesController : ControllerBase
 
         return Ok(result);
     }
+    [HttpGet("dashboard")]
+    public async Task<ActionResult<JobSeekerDashboardDto>> GetDashboard()
+    {
+        var userId = User.GetUserId();
+
+        var result = await _profileService.GetDashboardAsync(userId);
+
+        return Ok(result);
+    }
 
     [HttpPut("skills")]
     public async Task<ActionResult<JobSeekerProfileResponseDto>> UpdateSkills(

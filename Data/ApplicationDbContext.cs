@@ -5,7 +5,8 @@ namespace SmartRecruitmentMatchingPlatform.Data;
 
 public class ApplicationDbContext : DbContext
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+    public ApplicationDbContext(
+        DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
     }
@@ -19,6 +20,19 @@ public class ApplicationDbContext : DbContext
 
     public DbSet<CvDocument> CvDocuments => Set<CvDocument>();
 
+    public DbSet<EmployerProfile> EmployerProfiles => Set<EmployerProfile>();
+
+    public DbSet<JobSeekerProfile> JobSeekerProfiles => Set<JobSeekerProfile>();
+
+    public DbSet<Skill> Skills => Set<Skill>();
+
+    public DbSet<JobSeekerSkill> JobSeekerSkills => Set<JobSeekerSkill>();
+
+    public DbSet<CvDocument> CvDocuments => Set<CvDocument>();
+    public DbSet<Vacancy> Vacancies => Set<Vacancy>();
+
+    public DbSet<VacancySkill> VacancySkills => Set<VacancySkill>();
+    public DbSet<Notification> Notifications => Set<Notification>();
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

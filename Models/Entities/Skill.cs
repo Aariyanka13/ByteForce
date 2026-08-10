@@ -10,4 +10,7 @@ public class Skill
 
     public ICollection<JobSeekerSkill> JobSeekerSkills { get; set; }
         = new List<JobSeekerSkill>();
+
+    public ICollection<VacancySkill> VacancySkills { get; set; }
+    = new List<VacancySkill>();
 }

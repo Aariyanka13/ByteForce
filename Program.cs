@@ -17,7 +17,6 @@ using SmartRecruitmentMatchingPlatform.Models.Entities;
 using SmartRecruitmentMatchingPlatform.Options;
 using SmartRecruitmentMatchingPlatform.Repositories;
 using SmartRecruitmentMatchingPlatform.Services;
-using SmartRecruitmentMatchingPlatform.Storage;
 
 
 namespace SmartRecruitmentMatchingPlatform
@@ -120,35 +119,22 @@ namespace SmartRecruitmentMatchingPlatform
                 IJwtTokenService,
                 JwtTokenService>();
 
-            builder.Services.AddScoped<
-    IJobSeekerRepository,
-    JobSeekerRepository>();
-
-            builder.Services.AddScoped<
-                ISkillRepository,
-                SkillRepository>();
-
-            builder.Services.AddScoped<
-                ICvDocumentRepository,
-                CvDocumentRepository>();
-
-            builder.Services.AddScoped<
-                IJobSeekerProfileService,
-                JobSeekerProfileService>();
-
-            builder.Services.AddScoped<
-                ISkillService,
-                SkillService>();
-
-            builder.Services.AddScoped<
-                ICvService,
-                CvService>();
-
-            builder.Services.AddScoped<
-                IFileStorageService,
-                LocalFileStorageService>();
-
             var app = builder.Build();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider
+                    .GetRequiredService<ApplicationDbContext>();
+
+                var passwordHasher = scope.ServiceProvider
+                    .GetRequiredService<IPasswordHasher<User>>();
+
+                DatabaseSeeder.SeedAsync(
+                        dbContext,
+                        passwordHasher)
+                    .GetAwaiter()
+                    .GetResult();
+            }
 
             app.UseMiddleware<ExceptionHandlingMiddleware>();
 
@@ -157,7 +143,7 @@ namespace SmartRecruitmentMatchingPlatform
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
 
             app.UseAuthentication();

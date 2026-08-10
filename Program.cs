@@ -20,7 +20,6 @@ using SmartRecruitmentMatchingPlatform.Repositories;
 using SmartRecruitmentMatchingPlatform.Services;
 using SmartRecruitmentMatchingPlatform.Storage;
 
-
 namespace SmartRecruitmentMatchingPlatform
 {
     public class Program
@@ -30,38 +29,44 @@ namespace SmartRecruitmentMatchingPlatform
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllers()
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.Converters.Add(
-            new JsonStringEnumConverter());
-    });
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen(options =>
-            {
-                options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                .AddJsonOptions(options =>
                 {
-                    Name = "Authorization",
-                    Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
-                    Scheme = "bearer",
-                    BearerFormat = "JWT",
-                    In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-                    Description = "Enter JWT token"
+                    options.JsonSerializerOptions.Converters.Add(
+                        new JsonStringEnumConverter());
                 });
 
-                options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
-    {
-        {
-            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            builder.Services.AddEndpointsApiExplorer();
+
+            builder.Services.AddSwaggerGen(options =>
             {
-                Reference = new Microsoft.OpenApi.Models.OpenApiReference
-                {
-                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            Array.Empty<string>()
-        }
-    });
+                options.AddSecurityDefinition(
+                    "Bearer",
+                    new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                    {
+                        Name = "Authorization",
+                        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+                        Scheme = "bearer",
+                        BearerFormat = "JWT",
+                        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+                        Description = "Enter JWT token"
+                    });
+
+                options.AddSecurityRequirement(
+                    new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+                    {
+                        {
+                            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                            {
+                                Reference =
+                                    new Microsoft.OpenApi.Models.OpenApiReference
+                                    {
+                                        Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                                        Id = "Bearer"
+                                    }
+                            },
+                            Array.Empty<string>()
+                        }
+                    });
             });
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -114,6 +119,7 @@ namespace SmartRecruitmentMatchingPlatform
                 IPasswordHasher<User>,
                 PasswordHasher<User>>();
 
+            // Member 1
             builder.Services.AddScoped<
                 IUserRepository,
                 UserRepository>();
@@ -126,14 +132,15 @@ namespace SmartRecruitmentMatchingPlatform
                 IJwtTokenService,
                 JwtTokenService>();
 
+            // Member 3
             builder.Services.AddScoped<
-               IEmployerProfileRepository,
-               EmployerProfileRepository>();
+                IEmployerProfileRepository,
+                EmployerProfileRepository>();
 
             builder.Services.AddScoped<
                 IEmployerProfileService,
                 EmployerProfileService>();
-           
+
             builder.Services.AddScoped<
                 IVacancyRepository,
                 VacancyRepository>();
@@ -142,6 +149,12 @@ namespace SmartRecruitmentMatchingPlatform
                 IVacancyService,
                 VacancyService>();
 
+            // Member 4
+            builder.Services.AddScoped<
+                IApplicationRepository,
+                ApplicationRepository>();
+
+            // Member 2
             builder.Services.AddScoped<
                 IJobSeekerRepository,
                 JobSeekerRepository>();
@@ -170,14 +183,16 @@ namespace SmartRecruitmentMatchingPlatform
                 IFileStorageService,
                 LocalFileStorageService>();
 
+            // Member 5 - Notifications
             builder.Services.AddScoped<
-                 INotificationRepository,
-                 NotificationRepository>();
+                INotificationRepository,
+                NotificationRepository>();
 
             builder.Services.AddScoped<
                 INotificationService,
                 NotificationService>();
 
+            // Member 5 - Admin
             builder.Services.AddScoped<
                 IAdminRepository,
                 AdminRepository>();
@@ -185,6 +200,15 @@ namespace SmartRecruitmentMatchingPlatform
             builder.Services.AddScoped<
                 IAdminService,
                 AdminService>();
+
+            // Member 5 - Contact Requests
+            builder.Services.AddScoped<
+                IContactRequestRepository,
+                ContactRequestRepository>();
+
+            builder.Services.AddScoped<
+                IContactRequestService,
+                ContactRequestService>();
 
             var app = builder.Build();
 
@@ -210,7 +234,9 @@ namespace SmartRecruitmentMatchingPlatform
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
             app.UseStaticFiles();
+
             app.UseHttpsRedirection();
 
             app.UseAuthentication();

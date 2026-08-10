@@ -79,6 +79,21 @@ public class AdminRepository : IAdminRepository
             .CountAsync(x => !x.IsActive);
     }
 
+    public async Task<int> GetTotalVacanciesCountAsync()
+    {
+        return await _context.Vacancies.CountAsync();
+    }
+
+    public async Task<int> GetTotalApplicationsCountAsync()
+    {
+        return await _context.JobApplications.CountAsync();
+    }
+
+    public async Task<int> GetTotalContactRequestsCountAsync()
+    {
+        return await _context.ContactRequests.CountAsync();
+    }
+
     public async Task SaveChangesAsync()
     {
         await _context.SaveChangesAsync();

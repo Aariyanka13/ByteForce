@@ -6,28 +6,45 @@ namespace SmartRecruitmentMatchingPlatform.Data;
 public class ApplicationDbContext : DbContext
 {
     public ApplicationDbContext(
-        DbContextOptions<ApplicationDbContext> options)
+        DbContextOptions options)
         : base(options)
     {
     }
 
     public DbSet<User> Users => Set<User>();
 
-    public DbSet<EmployerProfile> EmployerProfiles => Set<EmployerProfile>();
+    public DbSet<EmployerProfile> EmployerProfiles
+        => Set<EmployerProfile>();
 
-    public DbSet<JobSeekerProfile> JobSeekerProfiles => Set<JobSeekerProfile>();
+    public DbSet<JobSeekerProfile> JobSeekerProfiles
+        => Set<JobSeekerProfile>();
 
-    public DbSet<Skill> Skills => Set<Skill>();
+    public DbSet<Skill> Skills
+        => Set<Skill>();
 
-    public DbSet<JobSeekerSkill> JobSeekerSkills => Set<JobSeekerSkill>();
+    public DbSet<JobSeekerSkill> JobSeekerSkills
+        => Set<JobSeekerSkill>();
 
-    public DbSet<CvDocument> CvDocuments => Set<CvDocument>();
-    public DbSet<Vacancy> Vacancies => Set<Vacancy>();
+    public DbSet<CvDocument> CvDocuments
+        => Set<CvDocument>();
 
-    public DbSet<VacancySkill> VacancySkills => Set<VacancySkill>();
+    public DbSet<Vacancy> Vacancies
+        => Set<Vacancy>();
 
-    public DbSet<JobApplication> JobApplications => Set<JobApplication>();
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    public DbSet<VacancySkill> VacancySkills
+        => Set<VacancySkill>();
+
+    public DbSet<JobApplication> JobApplications
+        => Set<JobApplication>();
+
+    public DbSet<Notification> Notifications
+        => Set<Notification>();
+
+    public DbSet<ContactRequest> ContactRequests
+        => Set<ContactRequest>();
+
+    protected override void OnModelCreating(
+        ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 

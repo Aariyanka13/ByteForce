@@ -164,6 +164,22 @@ namespace SmartRecruitmentMatchingPlatform
                 IFileStorageService,
                 LocalFileStorageService>();
 
+            builder.Services.AddScoped<
+                 INotificationRepository,
+                 NotificationRepository>();
+
+            builder.Services.AddScoped<
+                INotificationService,
+                NotificationService>();
+
+            builder.Services.AddScoped<
+                IAdminRepository,
+                AdminRepository>();
+
+            builder.Services.AddScoped<
+                IAdminService,
+                AdminService>();
+
             var app = builder.Build();
 
             using (var scope = app.Services.CreateScope())
@@ -171,7 +187,12 @@ namespace SmartRecruitmentMatchingPlatform
                 var dbContext = scope.ServiceProvider
                     .GetRequiredService<ApplicationDbContext>();
 
-                DatabaseSeeder.SeedAsync(dbContext)
+                var passwordHasher = scope.ServiceProvider
+                    .GetRequiredService<IPasswordHasher<User>>();
+
+                DatabaseSeeder.SeedAsync(
+                        dbContext,
+                        passwordHasher)
                     .GetAwaiter()
                     .GetResult();
             }

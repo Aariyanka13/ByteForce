@@ -2,6 +2,7 @@
 using SmartRecruitmentMatchingPlatform.DTOs.Auth;
 using SmartRecruitmentMatchingPlatform.Exceptions;
 using SmartRecruitmentMatchingPlatform.Interfaces.Repositories;
+using SmartRecruitmentMatchingPlatform.Interface.Repositories;
 using SmartRecruitmentMatchingPlatform.Interfaces.Services;
 using SmartRecruitmentMatchingPlatform.Models.Entities;
 using SmartRecruitmentMatchingPlatform.Models.Enums;
@@ -13,15 +14,18 @@ public class AuthService : IAuthService
     private readonly IUserRepository _userRepository;
     private readonly IJwtTokenService _jwtTokenService;
     private readonly IPasswordHasher<User> _passwordHasher;
+    private readonly IJobSeekerRepository _jobSeekerRepository;
 
     public AuthService(
-        IUserRepository userRepository,
-        IJwtTokenService jwtTokenService,
-        IPasswordHasher<User> passwordHasher)
+    IUserRepository userRepository,
+    IJwtTokenService jwtTokenService,
+    IPasswordHasher<User> passwordHasher,
+    IJobSeekerRepository jobSeekerRepository)
     {
         _userRepository = userRepository;
         _jwtTokenService = jwtTokenService;
         _passwordHasher = passwordHasher;
+        _jobSeekerRepository = jobSeekerRepository;
     }
 
     public async Task<CurrentUserDto> RegisterJobSeekerAsync(
@@ -53,6 +57,14 @@ public class AuthService : IAuthService
 
         await _userRepository.AddAsync(user);
         await _userRepository.SaveChangesAsync();
+        var profile = new JobSeekerProfile
+        {
+            UserId = user.Id,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        await _jobSeekerRepository.AddAsync(profile);
+        await _jobSeekerRepository.SaveChangesAsync();
 
         return MapCurrentUser(user);
     }

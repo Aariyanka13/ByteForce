@@ -1,5 +1,4 @@
-﻿
-using SmartRecruitmentMatchingPlatform.DTOs.Applications;
+﻿using SmartRecruitmentMatchingPlatform.DTOs.Applications;
 using SmartRecruitmentMatchingPlatform.DTOs.Common;
 using SmartRecruitmentMatchingPlatform.Exceptions;
 using SmartRecruitmentMatchingPlatform.Interface.Repositories;
@@ -22,13 +21,17 @@ public class ApplicationService : IApplicationService
 
     private readonly IVacancyRepository _vacancyRepository;
 
+    // Member 5 - Notification integration
+    private readonly INotificationService _notificationService;
+
     public ApplicationService(
         IJobSeekerRepository jobSeekerRepository,
         IJobSearchRepository jobSearchRepository,
         IApplicationRepository applicationRepository,
         IMatchingService matchingService,
         IEmployerProfileRepository employerProfileRepository,
-        IVacancyRepository vacancyRepository)
+        IVacancyRepository vacancyRepository,
+        INotificationService notificationService)
     {
         _jobSeekerRepository = jobSeekerRepository;
         _jobSearchRepository = jobSearchRepository;
@@ -36,6 +39,7 @@ public class ApplicationService : IApplicationService
         _matchingService = matchingService;
         _employerProfileRepository = employerProfileRepository;
         _vacancyRepository = vacancyRepository;
+        _notificationService = notificationService;
     }
 
     public async Task<ApplicationListItemDto> ApplyAsync(
@@ -254,15 +258,25 @@ public class ApplicationService : IApplicationService
             return;
         }
 
+        // Update application status
         application.Status = request.Status;
         application.UpdatedAt = DateTime.UtcNow;
 
         await _applicationRepository.SaveChangesAsync();
 
-        /*
-         * Member 5 notification integration will be added here
-         * after INotificationService becomes available.
-         */
+        // Member 5 - Notify Job Seeker
+        var jobSeekerUserId =
+            application.JobSeekerProfile.UserId;
+
+        var statusText =
+            request.Status.ToString();
+
+        await _notificationService.CreateAsync(
+            jobSeekerUserId,
+            NotificationType.ApplicationStatusChanged,
+            "Application status updated",
+            $"Your application status has been updated to {statusText}.",
+            application.Id);
     }
 
     private static void ValidateProfileForApplication(

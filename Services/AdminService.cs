@@ -50,7 +50,16 @@ public class AdminService : IAdminService
                 await _adminRepository.GetActiveUsersCountAsync(),
 
             DisabledUsers =
-                await _adminRepository.GetDisabledUsersCountAsync()
+                await _adminRepository.GetDisabledUsersCountAsync(),
+
+            TotalVacancies =
+                await _adminRepository.GetTotalVacanciesCountAsync(),
+
+            TotalApplications =
+                await _adminRepository.GetTotalApplicationsCountAsync(),
+
+            TotalContactRequests =
+                await _adminRepository.GetTotalContactRequestsCountAsync()
         };
     }
 

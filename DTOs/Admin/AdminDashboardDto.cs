@@ -11,4 +11,10 @@ public class AdminDashboardDto
     public int ActiveUsers { get; set; }
 
     public int DisabledUsers { get; set; }
+
+    public int TotalVacancies { get; set; }
+
+    public int TotalApplications { get; set; }
+
+    public int TotalContactRequests { get; set; }
 }

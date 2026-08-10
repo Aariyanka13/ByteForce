@@ -20,5 +20,11 @@ public interface IAdminRepository
 
     Task<int> GetDisabledUsersCountAsync();
 
+    Task<int> GetTotalVacanciesCountAsync();
+
+    Task<int> GetTotalApplicationsCountAsync();
+
+    Task<int> GetTotalContactRequestsCountAsync();
+
     Task SaveChangesAsync();
 }

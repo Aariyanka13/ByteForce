@@ -1,6 +1,9 @@
-﻿namespace SmartRecruitmentMatchingPlatform.Exceptions
+﻿namespace SmartRecruitmentMatchingPlatform.Exceptions;
+
+public class ConflictException : Exception
 {
-    public class ConflictException
+    public ConflictException(string message)
+        : base(message)
     {
     }
 }

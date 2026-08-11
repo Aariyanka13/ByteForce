@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | ByteForce Recruitment</title>
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <link rel="stylesheet" href="/css/utilities.css">
+  <link rel="stylesheet" href="/auth/login.css">
+</head>
+<body class="auth-page">
+  <div class="auth-card card">
+    <div class="auth-header">
+      <a href="/index.html" class="brand-logo justify-center mb-2">
+        <div class="brand-icon"><img src="/images/logo-icon.svg" alt="ByteForce Logo" width="36" height="36"></div>
+        <span>Byte<span style="color: var(--primary);">Force</span></span>
+      </a>
+      <h1 class="h2 mb-1">Welcome Back</h1>
+      <p>Log in to access your recruitment portal</p>
+    </div>
+
+    <div id="apiErrorBanner" class="badge badge-rejected w-full mb-4 hidden" style="padding: 10px; border-radius: var(--radius-md);"></div>
+
+    <form id="loginForm" novalidate>
+      <div class="form-group">
+        <label for="email" class="form-label">Email Address <span class="required">*</span></label>
+        <input type="email" id="email" class="form-control" placeholder="name@company.com" required>
+        <div class="invalid-feedback">Please enter a valid email address.</div>
+      </div>
+
+      <div class="form-group">
+        <div class="flex items-center justify-between">
+          <label for="password" class="form-label">Password <span class="required">*</span></label>
+        </div>
+        <div class="password-input-wrapper">
+          <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+          <button type="button" id="togglePasswordBtn" class="password-toggle-btn" aria-label="Toggle password visibility"></button>
+        </div>
+        <div class="invalid-feedback">Please enter your password.</div>
+      </div>
+
+      <button type="submit" id="submitBtn" class="btn btn-primary btn-block btn-lg mt-4">
+        <span id="btnText">Log In</span>
+        <span id="btnSpinner" class="hidden">Signing in...</span>
+      </button>
+    </form>
+
+    <div class="auth-footer mt-6 text-center">
+      <p>Don't have an account?</p>
+      <div class="flex justify-center gap-4 mt-2">
+        <a href="/auth/register-jobseeker.html" class="link">Register Job Seeker</a>
+        <span>•</span>
+        <a href="/auth/register-employer.html" class="link">Register Employer</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/core/constants.js"></script>
+  <script src="/js/core/storage.js"></script>
+  <script src="/js/core/api.js"></script>
+  <script src="/js/core/auth.js"></script>
+  <script src="/js/core/guards.js"></script>
+  <script src="/js/core/ui.js"></script>
+  <script src="/js/core/validators.js"></script>
+  <script src="/js/shared/toast.js"></script>
+  <script src="/auth/login.js"></script>
+</body>
+</html>

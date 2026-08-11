@@ -1,0 +1,59 @@
+/* Responsive Breakpoints & Adaptations */
+
+/* Tablet & Mobile (< 1024px) */
+@media (max-width: 1024px) {
+  :root {
+    --sidebar-width: 240px;
+  }
+}
+
+/* Tablet (< 768px) */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .sidebar-toggle {
+    display: block;
+  }
+
+  .main-wrapper {
+    margin-left: 0;
+  }
+
+  .app-header {
+    padding: 0 var(--space-4);
+  }
+
+  .page-content {
+    padding: var(--space-4);
+  }
+
+  .user-name, .user-role-badge {
+    display: none;
+  }
+}
+
+/* Mobile (< 480px) */
+@media (max-width: 480px) {
+  h1, .h1 { font-size: var(--font-size-2xl); }
+  h2, .h2 { font-size: var(--font-size-xl); }
+
+  .card {
+    padding: var(--space-4);
+  }
+
+  .btn-lg {
+    padding: 0.625rem 1rem;
+    font-size: var(--font-size-sm);
+  }
+
+  .modal {
+    padding: var(--space-4);
+  }
+}

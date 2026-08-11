@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Vacancies | ByteForce</title>
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <link rel="stylesheet" href="/css/utilities.css">
+</head>
+<body>
+  <div class="mb-6 flex items-center justify-between">
+    <div>
+      <h1 class="h1 mb-1">My Job Vacancies</h1>
+      <p>Manage posted positions, view matched applicants, and close fulfilled vacancies.</p>
+    </div>
+    <a href="/employer/vacancy-create.html" class="btn btn-primary flex items-center gap-2">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Create New Vacancy
+    </a>
+  </div>
+
+  <div class="table-wrapper">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Vacancy Title</th>
+          <th>Location</th>
+          <th>Required Experience</th>
+          <th>Required Skills</th>
+          <th>Status</th>
+          <th style="text-align: right;">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="vacanciesTableBody">
+        <tr><td colspan="6" class="text-center py-4">Loading job vacancies...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script src="/js/core/constants.js"></script>
+  <script src="/js/core/storage.js"></script>
+  <script src="/js/core/api.js"></script>
+  <script src="/js/core/auth.js"></script>
+  <script src="/js/core/guards.js"></script>
+  <script src="/js/core/ui.js"></script>
+  <script src="/js/core/navigation.js"></script>
+  <script src="/js/shared/toast.js"></script>
+  <script src="/js/shared/modal.js"></script>
+  <script src="/js/shared/loader.js"></script>
+  <script src="/js/shared/notifications.js"></script>
+  <script src="/employer/vacancies.js"></script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Vacancy | ByteForce</title>
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <link rel="stylesheet" href="/css/utilities.css">
+  <style>
+    .skill-select-chip {
+      padding: var(--space-2) var(--space-3);
+      background-color: var(--surface-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      font-size: var(--font-size-sm);
+      cursor: pointer;
+      user-select: none;
+      transition: all var(--transition-fast);
+    }
+    .skill-select-chip.selected {
+      background-color: var(--primary-light);
+      border-color: var(--primary-focus);
+      color: var(--primary);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="mb-4">
+    <a href="/employer/vacancies.html" class="link text-sm">← Back to Vacancies</a>
+  </div>
+
+  <div class="mb-6">
+    <h1 class="h1 mb-1">Edit Job Vacancy</h1>
+    <p>Update vacancy details and skill requirements.</p>
+  </div>
+
+  <div class="card" style="max-width: 800px;">
+    <form id="editVacancyForm" novalidate>
+      <div class="form-group">
+        <label for="title" class="form-label">Job Title <span class="required">*</span></label>
+        <input type="text" id="title" class="form-control" required>
+        <div class="invalid-feedback">Job title is required.</div>
+      </div>
+
+      <div class="grid grid-cols-3 gap-4 md:grid-cols-1">
+        <div class="form-group">
+          <label for="location" class="form-label">Job Location <span class="required">*</span></label>
+          <input type="text" id="location" class="form-control" required>
+          <div class="invalid-feedback">Location is required.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="experience" class="form-label">Required Experience (Years) <span class="required">*</span></label>
+          <input type="number" id="experience" class="form-control" min="0" max="50" step="0.5" required>
+          <div class="invalid-feedback">Required experience is required.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="education" class="form-label">Required Education Level <span class="required">*</span></label>
+          <select id="education" class="form-control" required>
+            <option value="NoRequirement">No Requirement</option>
+            <option value="Certificate">Certificate</option>
+            <option value="Diploma">Diploma</option>
+            <option value="Bachelor">Bachelor Degree</option>
+            <option value="Master">Master Degree / PhD</option>
+          </select>
+          <div class="invalid-feedback">Education level is required.</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description" class="form-label">Job Description & Responsibilities <span class="required">*</span></label>
+        <textarea id="description" class="form-control" rows="6" required></textarea>
+        <div class="invalid-feedback">Job description is required.</div>
+      </div>
+
+      <!-- Skills Selector -->
+      <div class="form-group">
+        <label class="form-label">Required Technical Skills <span class="required">*</span></label>
+        <div class="text-xs text-muted mb-2">Click to select skills required for this job vacancy:</div>
+        <div id="skillsCatalogBox" class="flex flex-wrap gap-2 p-3 border rounded mb-3" style="max-height: 200px; overflow-y: auto;">
+          <div class="skeleton" style="height: 32px; width: 100px;"></div>
+        </div>
+
+        <div class="flex items-center gap-2 mb-2">
+          <input type="text" id="customSkillInput" class="form-control" placeholder="Type custom skill name (e.g. Docker, Vue.js, Go)..." style="max-width: 320px;">
+          <button type="button" id="addCustomSkillBtn" class="btn btn-secondary flex items-center gap-1" style="white-space: nowrap;">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Custom Skill
+          </button>
+        </div>
+        <div class="invalid-feedback" id="skillsFeedback">At least one required skill must be selected.</div>
+      </div>
+
+      <div class="flex items-center justify-end gap-3 mt-6">
+        <a href="/employer/vacancies.html" class="btn btn-secondary">Cancel</a>
+        <button type="submit" id="saveVacancyBtn" class="btn btn-primary btn-lg">Save Vacancy Changes</button>
+      </div>
+    </form>
+  </div>
+
+  <script src="/js/core/constants.js"></script>
+  <script src="/js/core/storage.js"></script>
+  <script src="/js/core/api.js"></script>
+  <script src="/js/core/auth.js"></script>
+  <script src="/js/core/guards.js"></script>
+  <script src="/js/core/ui.js"></script>
+  <script src="/js/core/validators.js"></script>
+  <script src="/js/core/navigation.js"></script>
+  <script src="/js/shared/toast.js"></script>
+  <script src="/js/shared/modal.js"></script>
+  <script src="/js/shared/notifications.js"></script>
+  <script src="/employer/vacancy-edit.js"></script>
+</body>
+</html>

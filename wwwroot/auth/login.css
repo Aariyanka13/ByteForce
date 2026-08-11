@@ -1,0 +1,25 @@
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--surface-secondary) 0%, var(--bg-main) 100%);
+  padding: var(--space-4);
+}
+
+.auth-card {
+  max-width: 440px;
+  width: 100%;
+  padding: var(--space-8);
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: var(--space-6);
+}
+
+.auth-footer {
+  font-size: var(--font-size-sm);
+  border-top: 1px solid var(--border-color);
+  padding-top: var(--space-4);
+}

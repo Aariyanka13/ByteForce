@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Skills | ByteForce</title>
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <link rel="stylesheet" href="/css/utilities.css">
+  <style>
+    .skill-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-3);
+      background-color: var(--primary-light);
+      color: var(--primary);
+      border: 1px solid var(--primary-focus);
+      border-radius: var(--radius-full);
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+    }
+    .skill-chip-remove {
+      background: none;
+      border: none;
+      color: var(--primary);
+      cursor: pointer;
+      font-size: 1.1rem;
+      line-height: 1;
+      padding: 0 2px;
+    }
+    .skill-chip-remove:hover {
+      color: var(--color-danger);
+    }
+    .available-skill-tag {
+      padding: var(--space-2) var(--space-3);
+      background-color: var(--surface-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      font-size: var(--font-size-sm);
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .available-skill-tag:hover {
+      background-color: var(--primary-light);
+      border-color: var(--primary-focus);
+      color: var(--primary);
+    }
+    .available-skill-tag.selected {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="mb-6">
+    <h1 class="h1 mb-1">Technical Skills</h1>
+    <p>Select your technical skills to improve vacancy match scores.</p>
+  </div>
+
+  <!-- Selected Skills Section -->
+  <div class="card mb-6">
+    <div class="card-header">
+      <div class="card-title">Selected Skills (<span id="selectedCount">0</span>)</div>
+      <button id="saveSkillsBtn" class="btn btn-primary btn-sm">Save Skills Selection</button>
+    </div>
+    <div id="selectedSkillsBox" class="flex flex-wrap gap-2 min-h-[60px] p-2">
+      <div class="text-muted text-sm" id="emptySelectedText">No skills selected yet. Choose from below.</div>
+    </div>
+  </div>
+
+  <!-- Search & Add Skills Section -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Add Skills from Catalog</div>
+    </div>
+    <div class="flex items-center gap-2 mb-4">
+      <input type="text" id="skillSearchInput" class="form-control" placeholder="Type to search skills (e.g. C#, SQL, React)...">
+      <button type="button" id="addCustomSkillBtn" class="btn btn-secondary flex items-center gap-1" style="white-space: nowrap;">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add Custom Skill
+      </button>
+    </div>
+    <div id="availableSkillsBox" class="flex flex-wrap gap-2">
+      <div class="skeleton" style="height: 36px; width: 120px;"></div>
+      <div class="skeleton" style="height: 36px; width: 140px;"></div>
+      <div class="skeleton" style="height: 36px; width: 100px;"></div>
+    </div>
+  </div>
+
+  <script src="/js/core/constants.js"></script>
+  <script src="/js/core/storage.js"></script>
+  <script src="/js/core/api.js"></script>
+  <script src="/js/core/auth.js"></script>
+  <script src="/js/core/guards.js"></script>
+  <script src="/js/core/ui.js"></script>
+  <script src="/js/core/navigation.js"></script>
+  <script src="/js/shared/toast.js"></script>
+  <script src="/js/shared/modal.js"></script>
+  <script src="/js/shared/notifications.js"></script>
+  <script src="/jobseeker/skills.js"></script>
+</body>
+</html>

@@ -1,6 +1,8 @@
-﻿namespace SmartRecruitmentMatchingPlatform.Interface.Services
+using SmartRecruitmentMatchingPlatform.Models.Entities;
+
+namespace SmartRecruitmentMatchingPlatform.Interface.Services;
+
+public interface IJwtTokenService
 {
-    public interface IJwtTokenService
-    {
-    }
+    (string Token, DateTime ExpiresAt) GenerateToken(User user);
 }

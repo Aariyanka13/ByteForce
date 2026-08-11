@@ -1,6 +1,9 @@
-﻿namespace SmartRecruitmentMatchingPlatform.Exceptions
+﻿namespace SmartRecruitmentMatchingPlatform.Exceptions;
+
+public class NotFoundException : Exception
 {
-    public class NotFoundException
+    public NotFoundException(string message)
+        : base(message)
     {
     }
 }

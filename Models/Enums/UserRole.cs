@@ -3,9 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SmartRecruitmentMatchingPlatform.Models.Enums
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UserRole : ControllerBase
+    public enum UserRole
     {
+        JobSeeker,
+        Employer,
+        Administrator
     }
 }

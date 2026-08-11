@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40" fill="none">
+  <defs>
+    <linearGradient id="bfBgGrad" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#0EA5E9"/>
+    </linearGradient>
+    <linearGradient id="accentGlow" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#38BDF8"/>
+      <stop offset="100%" stop-color="#818CF8"/>
+    </linearGradient>
+  </defs>
+  <!-- Main Rounded Container -->
+  <rect width="40" height="40" rx="10" fill="url(#bfBgGrad)"/>
+  
+  <!-- Sleek ByteForce 'BF' Interlocking Neural Match Icon -->
+  <path d="M11 10 H22 C25.3137 10 28 12.6863 28 16 C28 18.4 26.6 20.45 24.5 21.35 C27.1 22.25 29 24.65 29 27.5 C29 31.0899 26.0899 34 22.5 34 H11 V10 Z" fill="none"/>
+  
+  <!-- Outer Stylized 'B' Bars -->
+  <path d="M12 9 H21 C24.3137 9 27 11.6863 27 15 C27 18.3137 24.3137 21 21 21 H12 V9 Z" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M12 21 H22 C25.3137 21 28 23.6863 28 27 C28 30.3137 25.3137 33 22 33 H12 V21 Z" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Center Energy Spark / Match Node -->
+  <circle cx="21" cy="21" r="3.5" fill="white"/>
+  <circle cx="21" cy="21" r="2" fill="#2563EB"/>
+</svg>

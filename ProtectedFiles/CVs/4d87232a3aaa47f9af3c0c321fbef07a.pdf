@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Recruitment Matching Platform | Candidate Dashboard</title>
+    <meta name="description" content="Enterprise candidate recruitment matching dashboard with AI rule-based match scores, skill breakdown, and job recommendations.">
+    <!-- Corporate HR Tech CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <!-- ================= AUTH / LOGIN VIEW ================= -->
+    <section id="view-auth" class="auth-wrapper hidden">
+        <div class="card">
+            <div style="text-align: center; margin-bottom: 1.5rem;">
+                <div class="brand-icon-box" style="margin: 0 auto 0.75rem; width: 44px; height: 44px; font-size: 1.2rem;">S</div>
+                <h2 style="font-family: var(--font-heading); font-size: 1.5rem; font-weight: 800; color: var(--text-heading);">SmartRecruit Platform</h2>
+                <p class="text-muted" style="font-size: 0.85rem;">Sign in to access your Candidate, Employer, or Admin Dashboard</p>
+            </div>
+
+            <div class="auth-tabs">
+                <div class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">Login</div>
+                <div class="auth-tab" id="tab-reg-seeker" onclick="switchAuthTab('reg-seeker')">Candidate Register</div>
+                <div class="auth-tab" id="tab-reg-employer" onclick="switchAuthTab('reg-employer')">Employer Register</div>
+            </div>
+
+            <!-- Form: Login -->
+            <form id="form-login" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label class="form-label" for="login-email">Email Address</label>
+                    <input type="email" id="login-email" class="form-control" required placeholder="user@example.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="login-password">Password</label>
+                    <input type="password" id="login-password" class="form-control" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
+                
+                <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-light); font-size: 0.8rem; color: var(--text-muted);">
+                    <div style="font-weight: 700; margin-bottom: 0.3rem;">Demo Accounts:</div>
+                    <div>&bull; Candidate: <strong>alex.mercer@gmail.com</strong> / <strong>Seeker123!</strong></div>
+                    <div>&bull; Employer: <strong>hr@techcorp.com</strong> / <strong>Employer123!</strong></div>
+                    <div>&bull; Admin: <strong>admin@recruitment.com</strong> / <strong>AdminPass123!</strong></div>
+                </div>
+            </form>
+
+            <!-- Form: Register Job Seeker -->
+            <form id="form-reg-seeker" class="hidden" onsubmit="handleRegisterSeeker(event)">
+                <div class="form-group">
+                    <label class="form-label" for="seeker-email">Email Address</label>
+                    <input type="email" id="seeker-email" class="form-control" required placeholder="seeker@example.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="seeker-password">Password</label>
+                    <input type="password" id="seeker-password" class="form-control" required minlength="6" placeholder="••••••••">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="seeker-fullname">Full Name</label>
+                    <input type="text" id="seeker-fullname" class="form-control" required placeholder="Alex Johnson">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="seeker-phone">Phone Number</label>
+                    <input type="text" id="seeker-phone" class="form-control" required placeholder="+1 555-0199">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="seeker-location">Location (City, Country)</label>
+                    <input type="text" id="seeker-location" class="form-control" required placeholder="New York, USA">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Create Candidate Account</button>
+            </form>
+
+            <!-- Form: Register Employer -->
+            <form id="form-reg-employer" class="hidden" onsubmit="handleRegisterEmployer(event)">
+                <div class="form-group">
+                    <label class="form-label" for="emp-email">Work Email</label>
+                    <input type="email" id="emp-email" class="form-control" required placeholder="hr@company.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="emp-password">Password</label>
+                    <input type="password" id="emp-password" class="form-control" required minlength="6" placeholder="••••••••">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="emp-company">Company Name</label>
+                    <input type="text" id="emp-company" class="form-control" required placeholder="Acme Tech Solutions">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="emp-industry">Industry</label>
+                    <input type="text" id="emp-industry" class="form-control" required placeholder="Software & Cloud Services">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="emp-location">Company Location</label>
+                    <input type="text" id="emp-location" class="form-control" required placeholder="San Francisco, USA">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Create Employer Account</button>
+            </form>
+        </div>
+    </section>
+
+    <div class="app-wrapper" id="app-wrapper">
+
+        <!-- ================= LEFT SIDEBAR NAVIGATION ================= -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="#" class="brand-logo">
+                    <div class="brand-icon-box">S</div>
+                    <span>SmartRecruit</span>
+                </a>
+            </div>
+
+            <div class="sidebar-menu">
+                <div class="menu-category">Main Menu</div>
+                <a href="#section-welcome" class="nav-item active" onclick="setActiveNav(this)">
+                    <i class="nav-icon" data-lucide="layout-dashboard"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#section-profile-summary" class="nav-item" onclick="setActiveNav(this)">
+                    <i class="nav-icon" data-lucide="user"></i>
+                    <span>My Profile</span>
+                </a>
+                <a href="#section-welcome" class="nav-item" onclick="downloadResume()">
+                    <i class="nav-icon" data-lucide="file-text"></i>
+                    <span>Resume</span>
+                </a>
+                <a href="#section-skills" class="nav-item" onclick="setActiveNav(this)">
+                    <i class="nav-icon" data-lucide="code-2"></i>
+                    <span>Skills</span>
+                </a>
+
+                <div class="menu-category">Jobs & Applications</div>
+                <a href="#section-recommended-jobs" class="nav-item" onclick="setActiveNav(this)">
+                    <i class="nav-icon" data-lucide="search"></i>
+                    <span>Job Search</span>
+                </a>
+                <a href="#section-recommended-jobs" class="nav-item" onclick="setActiveNav(this)">
+                    <i class="nav-icon" data-lucide="sparkles"></i>
+                    <span>Recommended Jobs</span>
+                    <span class="nav-badge">3</span>
+                </a>
+                <a href="#section-applications" class="nav-item" onclick="setActiveNav(this)">
+                    <i class="nav-icon" data-lucide="briefcase"></i>
+                    <span>Applied Jobs</span>
+                    <span class="nav-badge">14</span>
+                </a>
+                <a href="#section-recommended-jobs" class="nav-item" onclick="setActiveNav(this)">
+                    <i class="nav-icon" data-lucide="bookmark"></i>
+                    <span>Saved Jobs</span>
+                    <span class="nav-badge">8</span>
+                </a>
+                <a href="#section-interviews" class="nav-item" onclick="setActiveNav(this)">
+                    <i class="nav-icon" data-lucide="calendar"></i>
+                    <span>Interviews</span>
+                    <span class="nav-badge">4</span>
+                </a>
+
+                <div class="menu-category">Account</div>
+                <a href="#section-notifications" class="nav-item" onclick="setActiveNav(this)">
+                    <i class="nav-icon" data-lucide="bell"></i>
+                    <span>Notifications</span>
+                    <span class="nav-badge">5</span>
+                </a>
+                <a href="#section-profile-summary" class="nav-item" onclick="setActiveNav(this)">
+                    <i class="nav-icon" data-lucide="settings"></i>
+                    <span>Settings</span>
+                </a>
+                <button type="button" class="nav-item" style="width: 100%; border: none; background: transparent; cursor: pointer; text-align: left; margin-top: 1rem; color: var(--danger);" onclick="handleLogout(event)">
+                    <i class="nav-icon" data-lucide="log-out"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- ================= MAIN WRAPPER ================= -->
+        <div class="main-wrapper">
+
+            <!-- TOP NAVIGATION BAR -->
+            <header class="topbar">
+                <!-- Search Bar -->
+                <div class="search-box">
+                    <i class="search-icon" data-lucide="search" style="width: 18px; height: 18px;"></i>
+                    <input type="text" class="search-input" placeholder="Search jobs, skills, or recruiters...">
+                </div>
+
+                <!-- Topbar Actions -->
+                <div class="topbar-actions">
+                    <!-- Profile Completion Progress Widget -->
+                    <div class="progress-header-widget">
+                        <i data-lucide="check-circle-2" style="width: 18px; height: 18px; color: var(--primary);"></i>
+                        <div style="display: flex; flex-direction: column; gap: 0.15rem;">
+                            <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-heading);">Profile 95%</div>
+                            <div class="progress-header-bar">
+                                <div class="progress-header-fill" style="width: 95%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dark Mode Toggle -->
+                    <button class="icon-btn" onclick="toggleDarkMode()" title="Toggle Dark Mode">
+                        <i id="theme-toggle-icon" data-lucide="moon" style="width: 18px; height: 18px;"></i>
+                    </button>
+
+                    <!-- Notifications Icon -->
+                    <button class="icon-btn" onclick="scrollToSection('section-notifications')" title="Notifications">
+                        <i data-lucide="bell" style="width: 18px; height: 18px;"></i>
+                        <span class="badge-dot"></span>
+                    </button>
+
+                    <!-- Messages Icon -->
+                    <button class="icon-btn" title="Messages">
+                        <i data-lucide="message-square" style="width: 18px; height: 18px;"></i>
+                        <span class="badge-dot"></span>
+                    </button>
+
+                    <!-- User Profile Avatar & Info -->
+                    <div class="user-profile-widget" onclick="scrollToSection('section-profile-summary')">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" alt="John Smith" class="avatar">
+                        <div class="user-info">
+                            <span class="user-name">John Smith</span>
+                            <span class="user-role">Senior .NET Engineer</span>
+                        </div>
+                    </div>
+
+                    <!-- Topbar Logout Button -->
+                    <button type="button" class="btn btn-sm btn-outline" style="border-color: rgba(239, 68, 68, 0.4); color: var(--danger);" onclick="handleLogout(event)" title="Sign Out">
+                        <i data-lucide="log-out" style="width: 14px; height: 14px;"></i> Logout
+                    </button>
+                </div>
+            </header>
+
+            <!-- MAIN CONTENT BODY -->
+            <main class="content-body">
+
+                <!-- SECTION 1 – WELCOME CARD -->
+                <section id="section-welcome" class="card welcome-card">
+                    <div class="welcome-text">
+                        <h1>Welcome back, John Smith! 👋</h1>
+                        <div class="welcome-subtitle">
+                            <span>Senior Software Engineer</span>
+                            <span>&bull;</span>
+                            <span>6 Years Experience</span>
+                            <span class="status-badge-hire">
+                                <i data-lucide="check" style="width: 12px; height: 12px;"></i> Available for Hire
+                            </span>
+                        </div>
+                        <div class="welcome-meta">
+                            <div class="welcome-meta-item">
+                                <i data-lucide="map-pin" style="width: 14px; height: 14px;"></i> Colombo / Remote
+                            </div>
+                            <div class="welcome-meta-item">
+                                <i data-lucide="clock" style="width: 14px; height: 14px;"></i> Resume Updated: Yesterday
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn btn-secondary" onclick="openEditProfileModal()" style="background: rgba(255,255,255,0.2); color: white; border: none; backdrop-filter: blur(8px);">
+                            <i data-lucide="edit-3" style="width: 16px; height: 16px;"></i> Edit Profile
+                        </button>
+                    </div>
+                </section>
+
+                <!-- SECTION 2 – DASHBOARD STATISTICS (KPI CARDS) -->
+                <section class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon-wrapper icon-blue">
+                            <i data-lucide="check-circle" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value">95%</span>
+                            <span class="stat-label">Profile Completion</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon-wrapper icon-emerald">
+                            <i data-lucide="sparkles" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value">89%</span>
+                            <span class="stat-label">AI Match Score</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon-wrapper icon-purple">
+                            <i data-lucide="send" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value">14</span>
+                            <span class="stat-label">Applied Jobs</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon-wrapper icon-amber">
+                            <i data-lucide="calendar" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value">4</span>
+                            <span class="stat-label">Interview Invites</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon-wrapper icon-cyan">
+                            <i data-lucide="bookmark" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value">8</span>
+                            <span class="stat-label">Saved Jobs</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon-wrapper icon-rose">
+                            <i data-lucide="alert-circle" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value">3</span>
+                            <span class="stat-label">Missing Skills</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon-wrapper icon-blue">
+                            <i data-lucide="eye" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value">142</span>
+                            <span class="stat-label">Profile Views</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon-wrapper icon-emerald">
+                            <i data-lucide="message-square" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value">6</span>
+                            <span class="stat-label">Recruiter Messages</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TWO COLUMN GRID: SECTION 3 & SECTION 4 -->
+                <div class="two-col-grid">
+
+                    <!-- SECTION 3 – PROFILE SUMMARY CARD -->
+                    <section id="section-profile-summary" class="card">
+                        <div class="card-title">
+                            <span><i data-lucide="user" style="width: 20px; height: 20px; color: var(--primary);"></i> Profile Summary</span>
+                            <button class="btn btn-sm btn-outline" onclick="openEditProfileModal()">
+                                <i data-lucide="edit-2" style="width: 14px; height: 14px;"></i> Edit
+                            </button>
+                        </div>
+
+                        <div style="display: flex; gap: 1.25rem; align-items: center; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border-light);">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" alt="John Smith" style="width: 72px; height: 72px; border-radius: 16px; object-fit: cover; border: 2px solid var(--primary);">
+                            <div>
+                                <h3 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 800; color: var(--text-heading);">John Smith</h3>
+                                <div style="font-size: 0.9rem; font-weight: 600; color: var(--primary);">Senior .NET & Full-Stack Engineer</div>
+                                <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">TechCorp Solutions &bull; 6 Yrs Exp</div>
+                            </div>
+                        </div>
+
+                        <div class="profile-details-grid">
+                            <div class="profile-detail-item">
+                                <span class="detail-label">Education</span>
+                                <span class="detail-value">B.Sc. Computer Science</span>
+                            </div>
+                            <div class="profile-detail-item">
+                                <span class="detail-label">Expected Salary</span>
+                                <span class="detail-value">LKR 350,000 / mo</span>
+                            </div>
+                            <div class="profile-detail-item">
+                                <span class="detail-label">Preferred Job Role</span>
+                                <span class="detail-value">Senior .NET Engineer</span>
+                            </div>
+                            <div class="profile-detail-item">
+                                <span class="detail-label">Preferred Work Type</span>
+                                <span class="detail-value">Hybrid / Remote</span>
+                            </div>
+                            <div class="profile-detail-item">
+                                <span class="detail-label">Preferred Location</span>
+                                <span class="detail-value">Colombo / Remote</span>
+                            </div>
+                            <div class="profile-detail-item">
+                                <span class="detail-label">Notice Period</span>
+                                <span class="detail-value">Immediate / 30 Days</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SECTION 4 – SKILLS OVERVIEW -->
+                    <section id="section-skills" class="card">
+                        <div class="card-title">
+                            <span><i data-lucide="code-2" style="width: 20px; height: 20px; color: var(--primary);"></i> Skills & Proficiency</span>
+                            <button class="btn btn-sm btn-primary" onclick="openAddSkillModal()">
+                                <i data-lucide="plus" style="width: 14px; height: 14px;"></i> Add Skill
+                            </button>
+                        </div>
+
+                        <div style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--text-light); margin-bottom: 0.85rem;">Technical Skills</div>
+
+                        <div class="skills-list">
+                            <div class="skill-bar-item">
+                                <div class="skill-info">
+                                    <span>C# & .NET 8</span>
+                                    <span style="color: var(--primary);">95%</span>
+                                </div>
+                                <div class="progress-track">
+                                    <div class="progress-bar-fill bg-primary-bar" style="width: 95%;"></div>
+                                </div>
+                            </div>
+
+                            <div class="skill-bar-item">
+                                <div class="skill-info">
+                                    <span>ASP.NET Core & Web API</span>
+                                    <span style="color: var(--primary);">92%</span>
+                                </div>
+                                <div class="progress-track">
+                                    <div class="progress-bar-fill bg-primary-bar" style="width: 92%;"></div>
+                                </div>
+                            </div>
+
+                            <div class="skill-bar-item">
+                                <div class="skill-info">
+                                    <span>SQL Server & EF Core</span>
+                                    <span style="color: var(--emerald);">90%</span>
+                                </div>
+                                <div class="progress-track">
+                                    <div class="progress-bar-fill bg-emerald-bar" style="width: 90%;"></div>
+                                </div>
+                            </div>
+
+                            <div class="skill-bar-item">
+                                <div class="skill-info">
+                                    <span>JavaScript & Vanilla JS</span>
+                                    <span style="color: var(--purple);">85%</span>
+                                </div>
+                                <div class="progress-track">
+                                    <div class="progress-bar-fill bg-purple-bar" style="width: 85%;"></div>
+                                </div>
+                            </div>
+
+                            <div class="skill-bar-item">
+                                <div class="skill-info">
+                                    <span>Docker & Azure</span>
+                                    <span style="color: var(--amber);">70%</span>
+                                </div>
+                                <div class="progress-track">
+                                    <div class="progress-bar-fill bg-amber-bar" style="width: 70%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--text-light); margin-top: 1.5rem; margin-bottom: 0.5rem;">Soft Skills</div>
+                        <div class="soft-skills-badges">
+                            <span class="soft-skill-tag"><i data-lucide="message-square" style="width: 14px; height: 14px; color: var(--primary);"></i> Communication (95%)</span>
+                            <span class="soft-skill-tag"><i data-lucide="users" style="width: 14px; height: 14px; color: var(--success);"></i> Leadership (85%)</span>
+                            <span class="soft-skill-tag"><i data-lucide="users-2" style="width: 14px; height: 14px; color: var(--purple);"></i> Teamwork (90%)</span>
+                            <span class="soft-skill-tag"><i data-lucide="brain-circuit" style="width: 14px; height: 14px; color: var(--accent);"></i> Problem Solving (95%)</span>
+                            <span class="soft-skill-tag"><i data-lucide="clock" style="width: 14px; height: 14px; color: var(--warning);"></i> Time Management (88%)</span>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- SECTION 5 – AI MATCH ANALYSIS -->
+                <section class="card">
+                    <div class="card-title">
+                        <span><i data-lucide="sparkles" style="width: 20px; height: 20px; color: var(--primary);"></i> AI Rule-Based Match Analysis</span>
+                        <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted);">Deterministic Weighted Algorithm</span>
+                    </div>
+
+                    <div class="ai-match-container">
+                        <!-- Doughnut Chart Container -->
+                        <div class="chart-center-wrapper">
+                            <canvas id="matchDoughnutChart"></canvas>
+                            <div class="chart-center-score">
+                                <div class="score-num">89%</div>
+                                <div class="score-sub">Overall Match</div>
+                            </div>
+                        </div>
+
+                        <!-- Progress Bars Breakdown -->
+                        <div class="match-breakdown-list">
+                            <div class="skill-bar-item">
+                                <div class="skill-info">
+                                    <span>Skill Compatibility (50% Wt)</span>
+                                    <span style="color: var(--primary);">92%</span>
+                                </div>
+                                <div class="progress-track"><div class="progress-bar-fill bg-primary-bar" style="width: 92%;"></div></div>
+                            </div>
+
+                            <div class="skill-bar-item">
+                                <div class="skill-info">
+                                    <span>Experience Match (25% Wt)</span>
+                                    <span style="color: var(--emerald);">85%</span>
+                                </div>
+                                <div class="progress-track"><div class="progress-bar-fill bg-emerald-bar" style="width: 85%;"></div></div>
+                            </div>
+
+                            <div class="skill-bar-item">
+                                <div class="skill-info">
+                                    <span>Education Match (15% Wt)</span>
+                                    <span style="color: var(--purple);">90%</span>
+                                </div>
+                                <div class="progress-track"><div class="progress-bar-fill bg-purple-bar" style="width: 90%;"></div></div>
+                            </div>
+
+                            <div class="skill-bar-item">
+                                <div class="skill-info">
+                                    <span>Location Match (10% Wt)</span>
+                                    <span style="color: var(--success);">100%</span>
+                                </div>
+                                <div class="progress-track"><div class="progress-bar-fill bg-emerald-bar" style="width: 100%;"></div></div>
+                            </div>
+
+                            <div class="skill-bar-item">
+                                <div class="skill-info">
+                                    <span>Salary Alignment</span>
+                                    <span style="color: var(--accent);">88%</span>
+                                </div>
+                                <div class="progress-track"><div class="progress-bar-fill bg-primary-bar" style="width: 88%;"></div></div>
+                            </div>
+
+                            <div class="skill-bar-item">
+                                <div class="skill-info">
+                                    <span>Availability Readiness</span>
+                                    <span style="color: var(--success);">100%</span>
+                                </div>
+                                <div class="progress-track"><div class="progress-bar-fill bg-emerald-bar" style="width: 100%;"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION 6 – MISSING SKILLS TABLE -->
+                <section class="card">
+                    <div class="card-title">
+                        <span><i data-lucide="alert-circle" style="width: 20px; height: 20px; color: var(--danger);"></i> Identified Missing Skills & Growth Plan</span>
+                        <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted);">Recommended to boost match score to 98%+</span>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Required Skill</th>
+                                    <th>Current Status</th>
+                                    <th>Priority</th>
+                                    <th>AI Recommendation</th>
+                                    <th style="text-align: right;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div style="font-weight: 700; color: var(--text-heading);">Docker & Containerization</div>
+                                        <div style="font-size: 0.78rem; color: var(--text-muted);">DevOps Requirement</div>
+                                    </td>
+                                    <td><span style="color: var(--danger); font-weight: 600;">Missing</span></td>
+                                    <td><span class="priority-high">High</span></td>
+                                    <td>Complete Docker & Microservices Containerization Fundamentals</td>
+                                    <td style="text-align: right;">
+                                        <button class="btn btn-sm btn-primary" onclick="showToast('Learning path launched for Docker Fundamentals', 'success')">Start Learning</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="font-weight: 700; color: var(--text-heading);">Microsoft Azure Cloud</div>
+                                        <div style="font-size: 0.78rem; color: var(--text-muted);">Cloud Services</div>
+                                    </td>
+                                    <td><span style="color: var(--warning); font-weight: 600;">Basic (40%)</span></td>
+                                    <td><span class="priority-medium">Medium</span></td>
+                                    <td>Earn Azure AZ-900 / AZ-204 Developer Certification</td>
+                                    <td style="text-align: right;">
+                                        <button class="btn btn-sm btn-primary" onclick="showToast('Learning path launched for Azure Certification', 'success')">Start Learning</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="font-weight: 700; color: var(--text-heading);">Kubernetes Orchestration</div>
+                                        <div style="font-size: 0.78rem; color: var(--text-muted);">Cluster Management</div>
+                                    </td>
+                                    <td><span style="color: var(--danger); font-weight: 600;">Missing</span></td>
+                                    <td><span class="priority-low">Low</span></td>
+                                    <td>Learn Kubernetes Cluster Management Basics</td>
+                                    <td style="text-align: right;">
+                                        <button class="btn btn-sm btn-primary" onclick="showToast('Learning path launched for Kubernetes Basics', 'success')">Start Learning</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- SECTION 7 – RECOMMENDED JOBS CARDS -->
+                <section id="section-recommended-jobs">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+                        <div>
+                            <h2 style="font-family: var(--font-heading); font-size: 1.35rem; font-weight: 800; color: var(--text-heading);">Recommended Vacancies</h2>
+                            <p class="text-muted" style="font-size: 0.88rem;">Matched deterministically based on your profile skills and experience</p>
+                        </div>
+                        <button class="btn btn-outline" onclick="scrollToSection('section-welcome')">View All Vacancies</button>
+                    </div>
+
+                    <div class="jobs-grid">
+                        <!-- Job 1 -->
+                        <div class="job-card">
+                            <div>
+                                <div class="job-card-header">
+                                    <div class="job-company-logo">ABC</div>
+                                    <span class="match-pill-high">94% MATCH</span>
+                                </div>
+                                <h3 class="job-title">Senior .NET Developer</h3>
+                                <div style="font-size: 0.88rem; font-weight: 600; color: var(--primary); margin-top: 0.2rem;">ABC Technologies</div>
+
+                                <div class="job-meta-row">
+                                    <span>📍 Colombo</span>
+                                    <span>&bull;</span>
+                                    <span>💵 LKR 350,000</span>
+                                    <span>&bull;</span>
+                                    <span>💼 Full-Time</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                                <button class="btn btn-primary" style="flex: 1;" onclick="applyForJobModal('Senior .NET Developer', 'ABC Technologies')">Apply Now</button>
+                                <button class="btn btn-secondary" onclick="showToast('Job saved to your bookmarks!', 'info')"><i data-lucide="bookmark" style="width: 16px; height: 16px;"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Job 2 -->
+                        <div class="job-card">
+                            <div>
+                                <div class="job-card-header">
+                                    <div class="job-company-logo">CW</div>
+                                    <span class="match-pill-high">91% MATCH</span>
+                                </div>
+                                <h3 class="job-title">Lead Backend Engineer</h3>
+                                <div style="font-size: 0.88rem; font-weight: 600; color: var(--primary); margin-top: 0.2rem;">CloudWave Innovations</div>
+
+                                <div class="job-meta-row">
+                                    <span>📍 Remote</span>
+                                    <span>&bull;</span>
+                                    <span>💵 $110,000 / yr</span>
+                                    <span>&bull;</span>
+                                    <span>💼 Full-Time</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                                <button class="btn btn-primary" style="flex: 1;" onclick="applyForJobModal('Lead Backend Engineer', 'CloudWave Innovations')">Apply Now</button>
+                                <button class="btn btn-secondary" onclick="showToast('Job saved to your bookmarks!', 'info')"><i data-lucide="bookmark" style="width: 16px; height: 16px;"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Job 3 -->
+                        <div class="job-card">
+                            <div>
+                                <div class="job-card-header">
+                                    <div class="job-company-logo">DS</div>
+                                    <span class="match-pill-high">88% MATCH</span>
+                                </div>
+                                <h3 class="job-title">Solutions Architect</h3>
+                                <div style="font-size: 0.88rem; font-weight: 600; color: var(--primary); margin-top: 0.2rem;">DataSphere Tech</div>
+
+                                <div class="job-meta-row">
+                                    <span>📍 Colombo</span>
+                                    <span>&bull;</span>
+                                    <span>💵 LKR 420,000</span>
+                                    <span>&bull;</span>
+                                    <span>💼 Hybrid</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                                <button class="btn btn-primary" style="flex: 1;" onclick="applyForJobModal('Solutions Architect', 'DataSphere Tech')">Apply Now</button>
+                                <button class="btn btn-secondary" onclick="showToast('Job saved to your bookmarks!', 'info')"><i data-lucide="bookmark" style="width: 16px; height: 16px;"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION 8 – RECENT APPLICATIONS -->
+                <section id="section-applications" class="card">
+                    <div class="card-title">
+                        <span><i data-lucide="briefcase" style="width: 20px; height: 20px; color: var(--primary);"></i> Recent Job Applications History</span>
+                        <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted);">14 Total Submitted</span>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Job Title</th>
+                                    <th>Company</th>
+                                    <th>Applied Date</th>
+                                    <th>Current Status</th>
+                                    <th>Match Score</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Senior .NET Core Engineer</strong></td>
+                                    <td>TechCorp Solutions</td>
+                                    <td>Aug 01, 2026</td>
+                                    <td><span class="chip-status chip-shortlisted"><i data-lucide="check-circle" style="width: 12px; height: 12px;"></i> Shortlisted</span></td>
+                                    <td><strong style="color: var(--success);">96.5%</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Lead Cloud Architect</strong></td>
+                                    <td>CloudWave Innovations</td>
+                                    <td>Jul 28, 2026</td>
+                                    <td><span class="chip-status chip-interview"><i data-lucide="calendar" style="width: 12px; height: 12px;"></i> Interview</span></td>
+                                    <td><strong style="color: var(--success);">91.0%</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Full Stack Web Developer</strong></td>
+                                    <td>Apex Systems</td>
+                                    <td>Jul 20, 2026</td>
+                                    <td><span class="chip-status chip-screening"><i data-lucide="eye" style="width: 12px; height: 12px;"></i> Screening</span></td>
+                                    <td><strong style="color: var(--primary);">88.0%</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Database Engineer</strong></td>
+                                    <td>DataSphere Tech</td>
+                                    <td>Jul 15, 2026</td>
+                                    <td><span class="chip-status chip-offer"><i data-lucide="award" style="width: 12px; height: 12px;"></i> Offer</span></td>
+                                    <td><strong style="color: var(--success);">94.0%</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- SECTION 9 – UPCOMING INTERVIEWS TIMELINE -->
+                <section id="section-interviews" class="card">
+                    <div class="card-title">
+                        <span><i data-lucide="calendar" style="width: 20px; height: 20px; color: var(--primary);"></i> Upcoming Scheduled Interviews</span>
+                        <span style="font-size: 0.85rem; font-weight: 600; color: var(--primary);">4 Confirmed</span>
+                    </div>
+
+                    <div class="interview-timeline-card">
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <h4 style="font-family: var(--font-heading); font-size: 1.1rem; color: var(--text-heading);">CloudWave Innovations</h4>
+                                <span class="chip-status chip-interview">Technical Interview</span>
+                            </div>
+                            <div style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.3rem;">
+                                📅 <strong>Tomorrow, Aug 04, 2026</strong> &bull; ⏰ 10:30 AM EST &bull; Interviewer: Sarah Jenkins (VP Eng)
+                            </div>
+                        </div>
+                        <div>
+                            <a href="#" class="btn btn-primary" onclick="alert('Launching Teams Meeting...')">
+                                <i data-lucide="video" style="width: 16px; height: 16px;"></i> Join Teams Meeting
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TWO COLUMN GRID: SECTION 10 & SECTION 11 -->
+                <div class="two-col-grid">
+
+                    <!-- SECTION 10 – CAREER INSIGHTS & ANALYTICS -->
+                    <section class="card">
+                        <div class="card-title">
+                            <span><i data-lucide="trending-up" style="width: 20px; height: 20px; color: var(--primary);"></i> Career Insights & Profile Strength</span>
+                            <span style="font-size: 0.85rem; font-weight: 700; color: var(--success);">Readiness: 92/100</span>
+                        </div>
+
+                        <div style="margin-bottom: 1.25rem;">
+                            <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.5rem;">Profile Views (Last 30 Days)</div>
+                            <div style="height: 180px;">
+                                <canvas id="profileViewsChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 1rem;">
+                            <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.5rem;">Recommended Certifications</div>
+                            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                <span class="soft-skill-tag" style="border-color: var(--primary);"><i data-lucide="award" style="width: 14px; height: 14px; color: var(--primary);"></i> Microsoft Certified: Azure Developer Associate</span>
+                                <span class="soft-skill-tag"><i data-lucide="award" style="width: 14px; height: 14px; color: var(--success);"></i> Docker Certified Associate (DCA)</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SECTION 11 – NOTIFICATIONS LIST -->
+                    <section id="section-notifications" class="card">
+                        <div class="card-title">
+                            <span><i data-lucide="bell" style="width: 20px; height: 20px; color: var(--primary);"></i> Recent System Notifications</span>
+                            <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Mark all read</span>
+                        </div>
+
+                        <div class="notification-item">
+                            <div class="notif-icon-circle icon-blue">
+                                <i data-lucide="check-circle-2" style="width: 18px; height: 18px;"></i>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.9rem; font-weight: 700; color: var(--text-heading);">Your profile reached 95% completion</div>
+                                <div style="font-size: 0.82rem; color: var(--text-muted);">Added work experience and qualifications successfully.</div>
+                                <div style="font-size: 0.75rem; color: var(--text-light); margin-top: 0.2rem;">2 hours ago</div>
+                            </div>
+                        </div>
+
+                        <div class="notification-item">
+                            <div class="notif-icon-circle icon-emerald">
+                                <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.9rem; font-weight: 700; color: var(--text-heading);">New 94% job match found</div>
+                                <div style="font-size: 0.82rem; color: var(--text-muted);">ABC Technologies posted Senior .NET Developer in Colombo.</div>
+                                <div style="font-size: 0.75rem; color: var(--text-light); margin-top: 0.2rem;">5 hours ago</div>
+                            </div>
+                        </div>
+
+                        <div class="notification-item">
+                            <div class="notif-icon-circle icon-purple">
+                                <i data-lucide="calendar" style="width: 18px; height: 18px;"></i>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.9rem; font-weight: 700; color: var(--text-heading);">Technical Interview Scheduled</div>
+                                <div style="font-size: 0.82rem; color: var(--text-muted);">CloudWave Innovations confirmed interview for Aug 04 at 10:30 AM.</div>
+                                <div style="font-size: 0.75rem; color: var(--text-light); margin-top: 0.2rem;">Yesterday</div>
+                            </div>
+                        </div>
+
+                        <div class="notification-item">
+                            <div class="notif-icon-circle icon-cyan">
+                                <i data-lucide="eye" style="width: 18px; height: 18px;"></i>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.9rem; font-weight: 700; color: var(--text-heading);">Resume viewed by recruiter</div>
+                                <div style="font-size: 0.82rem; color: var(--text-muted);">TechCorp Solutions HR reviewed your resume.</div>
+                                <div style="font-size: 0.75rem; color: var(--text-light); margin-top: 0.2rem;">2 days ago</div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- SECTION 12 – QUICK ACTIONS BUTTONS -->
+                <section class="card">
+                    <div class="card-title">
+                        <span><i data-lucide="zap" style="width: 20px; height: 20px; color: var(--primary);"></i> Quick Candidate Actions</span>
+                    </div>
+
+                    <div class="quick-actions-grid">
+                        <div class="action-btn-card" onclick="triggerCVUpload()">
+                            <div class="action-icon"><i data-lucide="upload-cloud"></i></div>
+                            <div style="font-weight: 700; font-size: 0.9rem; color: var(--text-heading);">Upload Resume</div>
+                        </div>
+
+                        <div class="action-btn-card" onclick="scrollToSection('section-recommended-jobs')">
+                            <div class="action-icon"><i data-lucide="search"></i></div>
+                            <div style="font-weight: 700; font-size: 0.9rem; color: var(--text-heading);">Search Jobs</div>
+                        </div>
+
+                        <div class="action-btn-card" onclick="openAddSkillModal()">
+                            <div class="action-icon"><i data-lucide="code-2"></i></div>
+                            <div style="font-weight: 700; font-size: 0.9rem; color: var(--text-heading);">Update Skills</div>
+                        </div>
+
+                        <div class="action-btn-card" onclick="openEditProfileModal()">
+                            <div class="action-icon"><i data-lucide="user-check"></i></div>
+                            <div style="font-weight: 700; font-size: 0.9rem; color: var(--text-heading);">Edit Profile</div>
+                        </div>
+
+                        <div class="action-btn-card" onclick="downloadResume()">
+                            <div class="action-icon"><i data-lucide="download"></i></div>
+                            <div style="font-weight: 700; font-size: 0.9rem; color: var(--text-heading);">Download Resume</div>
+                        </div>
+
+                        <div class="action-btn-card" onclick="scrollToSection('section-interviews')">
+                            <div class="action-icon"><i data-lucide="calendar"></i></div>
+                            <div style="font-weight: 700; font-size: 0.9rem; color: var(--text-heading);">View Interviews</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- FOOTER -->
+                <footer class="app-footer">
+                    <div>&copy; 2026 Smart Recruitment Matching Platform. All rights reserved.</div>
+                    <div class="footer-links">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Help Center</a>
+                        <a href="#">Support</a>
+                    </div>
+                </footer>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Hidden Resume Upload Input -->
+    <input type="file" id="hidden-cv-upload-input" style="display: none;" accept=".pdf,.doc,.docx" onchange="handleHiddenCVUpload(event)">
+
+    <!-- Modal Container -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="modal-body">
+            <div class="modal-header">
+                <h3 id="modal-title" style="font-family: var(--font-heading);">Modal Title</h3>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="modal-content"></div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container"></div>
+
+    <!-- JavaScript Application Client -->
+    <script src="js/app.js"></script>
+</body>
+</html>

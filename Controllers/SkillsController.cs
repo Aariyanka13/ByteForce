@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartRecruitmentMatchingPlatform.DTOs.Skills;
 using SmartRecruitmentMatchingPlatform.Interface.Services;
@@ -23,6 +23,13 @@ public class SkillsController : ControllerBase
     {
         var result = await _skillService.GetAllAsync(search);
 
+        return Ok(result);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<SkillResponseDto>> Create([FromBody] CreateSkillDto dto)
+    {
+        var result = await _skillService.CreateAsync(dto);
         return Ok(result);
     }
 }

@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartRecruitmentMatchingPlatform.DTOs.Auth;
 using SmartRecruitmentMatchingPlatform.Helpers;
-using SmartRecruitmentMatchingPlatform.Interfaces.Repositories;
-using SmartRecruitmentMatchingPlatform.Interfaces.Services;
+using SmartRecruitmentMatchingPlatform.Interface.Repositories;
+using SmartRecruitmentMatchingPlatform.Interface.Services;
 
 namespace SmartRecruitmentMatchingPlatform.Controllers;
 
@@ -30,7 +30,9 @@ public class AuthController : ControllerBase
         var result =
             await _authService.RegisterJobSeekerAsync(request);
 
-        return Ok(result);
+        return StatusCode(
+            StatusCodes.Status201Created,
+            result);
     }
 
     [AllowAnonymous]
@@ -54,9 +56,7 @@ public class AuthController : ControllerBase
         var result =
             await _authService.LoginAsync(request);
 
-        return StatusCode(
-        StatusCodes.Status201Created,
-        result);
+        return Ok(result);
     }
 
     [Authorize]

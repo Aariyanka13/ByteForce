@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SmartRecruitmentMatchingPlatform.Data;
-using SmartRecruitmentMatchingPlatform.Interfaces.Repositories;
+using SmartRecruitmentMatchingPlatform.Interface.Repositories;
 using SmartRecruitmentMatchingPlatform.Models.Entities;
 
 namespace SmartRecruitmentMatchingPlatform.Repositories;

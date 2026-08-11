@@ -1,7 +1,7 @@
-﻿using SmartRecruitmentMatchingPlatform.DTOs.Employers;
+using SmartRecruitmentMatchingPlatform.DTOs.Employers;
 using SmartRecruitmentMatchingPlatform.Exceptions;
-using SmartRecruitmentMatchingPlatform.Interfaces.Repositories;
-using SmartRecruitmentMatchingPlatform.Interfaces.Services;
+using SmartRecruitmentMatchingPlatform.Interface.Repositories;
+using SmartRecruitmentMatchingPlatform.Interface.Services;
 using SmartRecruitmentMatchingPlatform.Models.Entities;
 
 namespace SmartRecruitmentMatchingPlatform.Services;

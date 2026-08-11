@@ -1,6 +1,6 @@
-﻿using SmartRecruitmentMatchingPlatform.Models.Entities;
+using SmartRecruitmentMatchingPlatform.Models.Entities;
 
-namespace SmartRecruitmentMatchingPlatform.Interfaces.Services;
+namespace SmartRecruitmentMatchingPlatform.Interface.Services;
 
 public interface IJwtTokenService
 {

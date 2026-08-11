@@ -1,6 +1,6 @@
-﻿using SmartRecruitmentMatchingPlatform.DTOs.Vacancies;
+using SmartRecruitmentMatchingPlatform.DTOs.Vacancies;
 
-namespace SmartRecruitmentMatchingPlatform.Interfaces.Services;
+namespace SmartRecruitmentMatchingPlatform.Interface.Services;
 
 public interface IVacancyService
 {

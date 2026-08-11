@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartRecruitmentMatchingPlatform.DTOs.Employers;
 using SmartRecruitmentMatchingPlatform.Helpers;
-using SmartRecruitmentMatchingPlatform.Interfaces.Services;
+using SmartRecruitmentMatchingPlatform.Interface.Services;
 
 namespace SmartRecruitmentMatchingPlatform.Controllers;
 

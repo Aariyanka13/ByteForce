@@ -1,6 +1,6 @@
-﻿using SmartRecruitmentMatchingPlatform.Models.Entities;
+using SmartRecruitmentMatchingPlatform.Models.Entities;
 
-namespace SmartRecruitmentMatchingPlatform.Interfaces.Repositories;
+namespace SmartRecruitmentMatchingPlatform.Interface.Repositories;
 
 public interface IEmployerProfileRepository
 {

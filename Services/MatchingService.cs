@@ -1,4 +1,4 @@
-﻿using SmartRecruitmentMatchingPlatform.DTOs.Jobs;
+using SmartRecruitmentMatchingPlatform.DTOs.Jobs;
 using SmartRecruitmentMatchingPlatform.Interface.Services;
 using SmartRecruitmentMatchingPlatform.Models.Entities;
 
@@ -7,12 +7,12 @@ namespace SmartRecruitmentMatchingPlatform.Services;
 public class MatchingService : IMatchingService
 {
     public MatchResultDto Calculate(
-        JobSeekerProfile profile,
+        JobSeekerProfile? profile,
         Vacancy vacancy)
     {
-        var candidateSkillIds = profile.JobSeekerSkills
+        var candidateSkillIds = profile?.JobSeekerSkills
             .Select(x => x.SkillId)
-            .ToHashSet();
+            .ToHashSet() ?? new HashSet<int>();
 
         var requiredSkills = vacancy.VacancySkills
             .Where(x => x.Skill != null)
@@ -35,8 +35,9 @@ public class MatchingService : IMatchingService
                 * 60m;
         }
 
+        var candidateExp = profile?.TotalExperienceYears ?? 0m;
         var experienceScore = CalculateExperienceScore(
-            profile.TotalExperienceYears,
+            candidateExp,
             vacancy.RequiredExperienceYears);
 
         decimal educationScore;
@@ -46,7 +47,8 @@ public class MatchingService : IMatchingService
         {
             educationScore = 10m;
         }
-        else if (profile.EducationLevel.HasValue &&
+        else if (profile != null &&
+                 profile.EducationLevel.HasValue &&
                  profile.EducationLevel.Value >=
                  vacancy.RequiredEducationLevel)
         {
@@ -59,7 +61,8 @@ public class MatchingService : IMatchingService
 
         decimal locationScore = 0m;
 
-        if (!string.IsNullOrWhiteSpace(profile.Location) &&
+        if (profile != null &&
+            !string.IsNullOrWhiteSpace(profile.Location) &&
             !string.IsNullOrWhiteSpace(vacancy.Location) &&
             string.Equals(
                 profile.Location.Trim(),

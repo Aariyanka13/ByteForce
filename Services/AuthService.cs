@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using SmartRecruitmentMatchingPlatform.DTOs.Auth;
 using SmartRecruitmentMatchingPlatform.Exceptions;
-using SmartRecruitmentMatchingPlatform.Interfaces.Repositories;
 using SmartRecruitmentMatchingPlatform.Interface.Repositories;
-using SmartRecruitmentMatchingPlatform.Interfaces.Services;
+using SmartRecruitmentMatchingPlatform.Interface.Services;
 using SmartRecruitmentMatchingPlatform.Models.Entities;
 using SmartRecruitmentMatchingPlatform.Models.Enums;
 
@@ -15,17 +14,20 @@ public class AuthService : IAuthService
     private readonly IJwtTokenService _jwtTokenService;
     private readonly IPasswordHasher<User> _passwordHasher;
     private readonly IJobSeekerRepository _jobSeekerRepository;
+    private readonly IEmployerProfileRepository _employerProfileRepository;
 
     public AuthService(
-    IUserRepository userRepository,
-    IJwtTokenService jwtTokenService,
-    IPasswordHasher<User> passwordHasher,
-    IJobSeekerRepository jobSeekerRepository)
+        IUserRepository userRepository,
+        IJwtTokenService jwtTokenService,
+        IPasswordHasher<User> passwordHasher,
+        IJobSeekerRepository jobSeekerRepository,
+        IEmployerProfileRepository employerProfileRepository)
     {
         _userRepository = userRepository;
         _jwtTokenService = jwtTokenService;
         _passwordHasher = passwordHasher;
         _jobSeekerRepository = jobSeekerRepository;
+        _employerProfileRepository = employerProfileRepository;
     }
 
     public async Task<CurrentUserDto> RegisterJobSeekerAsync(
@@ -98,6 +100,16 @@ public class AuthService : IAuthService
 
         await _userRepository.AddAsync(user);
         await _userRepository.SaveChangesAsync();
+
+        var profile = new EmployerProfile
+        {
+            UserId = user.Id,
+            CompanyName = request.CompanyName.Trim(),
+            CreatedAt = DateTime.UtcNow
+        };
+
+        await _employerProfileRepository.AddAsync(profile);
+        await _employerProfileRepository.SaveChangesAsync();
 
         return MapCurrentUser(user);
     }

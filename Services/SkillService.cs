@@ -1,4 +1,4 @@
-﻿using SmartRecruitmentMatchingPlatform.DTOs.Skills;
+using SmartRecruitmentMatchingPlatform.DTOs.Skills;
 using SmartRecruitmentMatchingPlatform.Interface.Repositories;
 using SmartRecruitmentMatchingPlatform.Interface.Services;
 
@@ -24,5 +24,15 @@ public class SkillService : ISkillService
                 Name = x.Name
             })
             .ToList();
+    }
+
+    public async Task<SkillResponseDto> CreateAsync(CreateSkillDto dto)
+    {
+        var skill = await _skillRepository.GetOrCreateAsync(dto.Name);
+        return new SkillResponseDto
+        {
+            Id = skill.Id,
+            Name = skill.Name
+        };
     }
 }

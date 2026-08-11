@@ -1,4 +1,4 @@
-﻿using SmartRecruitmentMatchingPlatform.DTOs.JobSeekers;
+using SmartRecruitmentMatchingPlatform.DTOs.JobSeekers;
 using SmartRecruitmentMatchingPlatform.Exceptions;
 using SmartRecruitmentMatchingPlatform.Interface.Repositories;
 using SmartRecruitmentMatchingPlatform.Interface.Services;
@@ -10,13 +10,16 @@ public class JobSeekerProfileService : IJobSeekerProfileService
 {
     private readonly IJobSeekerRepository _jobSeekerRepository;
     private readonly ISkillRepository _skillRepository;
+    private readonly IApplicationRepository _applicationRepository;
 
     public JobSeekerProfileService(
         IJobSeekerRepository jobSeekerRepository,
-        ISkillRepository skillRepository)
+        ISkillRepository skillRepository,
+        IApplicationRepository applicationRepository)
     {
         _jobSeekerRepository = jobSeekerRepository;
         _skillRepository = skillRepository;
+        _applicationRepository = applicationRepository;
     }
 
     public async Task<JobSeekerProfileResponseDto> GetCurrentAsync(int userId)
@@ -150,6 +153,8 @@ public class JobSeekerProfileService : IJobSeekerProfileService
             (int)Math.Round(
                 completedItems * 100.0 / totalItems);
 
+        var totalApps = await _applicationRepository.CountMineAsync(profile.Id, null);
+
         return new JobSeekerDashboardDto
         {
             Profile = MapProfile(profile),
@@ -162,7 +167,9 @@ public class JobSeekerProfileService : IJobSeekerProfileService
 
             SkillCount = profile.JobSeekerSkills.Count,
 
-            HasCv = profile.CvDocument is not null
+            HasCv = profile.CvDocument is not null,
+
+            TotalApplications = totalApps
         };
     }
 
@@ -173,6 +180,8 @@ public class JobSeekerProfileService : IJobSeekerProfileService
         {
             Id = profile.Id,
             UserId = profile.UserId,
+            FullName = profile.User?.FullName ?? string.Empty,
+            Email = profile.User?.Email ?? string.Empty,
             Phone = profile.Phone,
             Location = profile.Location,
             TotalExperienceYears =

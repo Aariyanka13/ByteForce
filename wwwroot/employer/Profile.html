@@ -1,93 +1,73 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Employer Profile</title>
-
-    <link rel="stylesheet" href="profile.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Company Profile | ByteForce</title>
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <link rel="stylesheet" href="/css/utilities.css">
 </head>
-
 <body>
+  <div class="mb-6">
+    <h1 class="h1 mb-1">Company Profile</h1>
+    <p>Manage public corporate information displayed on your vacancy listings.</p>
+  </div>
 
-    <main class="page-container">
+  <div class="card" style="max-width: 720px;">
+    <form id="employerProfileForm" novalidate>
+      <div class="form-group">
+        <label for="companyName" class="form-label">Company Name <span class="required">*</span></label>
+        <input type="text" id="companyName" class="form-control" placeholder="Acme Software Corp" required>
+        <div class="invalid-feedback">Company name is required.</div>
+      </div>
 
-        <header class="page-header">
-            <span class="page-label">Employer Account</span>
+      <div class="grid grid-cols-2 gap-4 md:grid-cols-1">
+        <div class="form-group">
+          <label for="industry" class="form-label">Industry <span class="required">*</span></label>
+          <input type="text" id="industry" class="form-control" placeholder="Information Technology" required>
+          <div class="invalid-feedback">Industry is required.</div>
+        </div>
 
-            <h1>Employer Profile</h1>
+        <div class="form-group">
+          <label for="location" class="form-label">Headquarters Location <span class="required">*</span></label>
+          <input type="text" id="location" class="form-control" placeholder="New York, NY" required>
+          <div class="invalid-feedback">Location is required.</div>
+        </div>
+      </div>
 
-            <p class="page-subtitle">
-                Manage your company information used across job vacancies.
-            </p>
-        </header>
+      <div class="form-group">
+        <label for="website" class="form-label">Website URL</label>
+        <input type="url" id="website" class="form-control" placeholder="https://example.com">
+      </div>
 
-        <form id="employerProfileForm">
+      <div class="form-group">
+        <label for="description" class="form-label">Company Description <span class="required">*</span></label>
+        <textarea id="description" class="form-control" rows="5" placeholder="Provide a brief overview of your business, mission, and work culture..." required></textarea>
+        <div class="invalid-feedback">Description is required.</div>
+      </div>
 
-            <div class="form-heading">
-                <div>
-                    <h2>Company Information</h2>
-                    <p>
-                        Keep your company details accurate and up to date.
-                    </p>
-                </div>
-            </div>
+      <div class="flex items-center justify-end gap-3 mt-6">
+        <button type="submit" id="saveEmployerProfileBtn" class="btn btn-primary btn-lg">
+          Save Company Profile
+        </button>
+      </div>
+    </form>
+  </div>
 
-            <div class="form-group">
-                <label for="companyName">
-                    Company Name
-                    <span class="required">*</span>
-                </label>
-
-                <input type="text"
-                       id="companyName"
-                       placeholder="Enter company name"
-                       required>
-            </div>
-
-            <div class="form-group">
-                <label for="industry">Industry</label>
-
-                <input type="text"
-                       id="industry"
-                       placeholder="e.g. Information Technology">
-            </div>
-
-            <div class="form-group">
-                <label for="location">Location</label>
-
-                <input type="text"
-                       id="location"
-                       placeholder="e.g. Colombo">
-            </div>
-
-            <div class="form-group">
-                <label for="website">Website</label>
-
-                <input type="url"
-                       id="website"
-                       placeholder="https://www.company.com">
-            </div>
-
-            <div class="form-group">
-                <label for="description">Company Description</label>
-
-                <textarea id="description"
-                          placeholder="Briefly describe your company..."></textarea>
-            </div>
-
-            <button type="submit">
-                Save Profile
-            </button>
-
-        </form>
-
-        <p id="message"></p>
-
-    </main>
-
-    <script src="profile.js"></script>
-
+  <script src="/js/core/constants.js"></script>
+  <script src="/js/core/storage.js"></script>
+  <script src="/js/core/api.js"></script>
+  <script src="/js/core/auth.js"></script>
+  <script src="/js/core/guards.js"></script>
+  <script src="/js/core/ui.js"></script>
+  <script src="/js/core/validators.js"></script>
+  <script src="/js/core/navigation.js"></script>
+  <script src="/js/shared/toast.js"></script>
+  <script src="/js/shared/modal.js"></script>
+  <script src="/js/shared/notifications.js"></script>
+  <script src="/employer/profile.js"></script>
 </body>
 </html>

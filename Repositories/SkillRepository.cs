@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SmartRecruitmentMatchingPlatform.Data;
 using SmartRecruitmentMatchingPlatform.Interface.Repositories;
 using SmartRecruitmentMatchingPlatform.Models.Entities;
@@ -45,5 +45,30 @@ public class SkillRepository : ISkillRepository
                 distinctIds.Contains(skill.Id));
 
         return existingCount == distinctIds.Count;
+    }
+
+    public async Task<Skill> GetOrCreateAsync(string name)
+    {
+        var trimmedName = name.Trim();
+        var normalized = trimmedName.ToUpperInvariant();
+
+        var existing = await _context.Skills
+            .FirstOrDefaultAsync(s => s.NormalizedName == normalized);
+
+        if (existing != null)
+        {
+            return existing;
+        }
+
+        var newSkill = new Skill
+        {
+            Name = trimmedName,
+            NormalizedName = normalized
+        };
+
+        _context.Skills.Add(newSkill);
+        await _context.SaveChangesAsync();
+
+        return newSkill;
     }
 }

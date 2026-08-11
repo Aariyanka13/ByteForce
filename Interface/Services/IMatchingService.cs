@@ -1,4 +1,4 @@
-﻿using SmartRecruitmentMatchingPlatform.DTOs.Jobs;
+using SmartRecruitmentMatchingPlatform.DTOs.Jobs;
 using SmartRecruitmentMatchingPlatform.Models.Entities;
 
 namespace SmartRecruitmentMatchingPlatform.Interface.Services;
@@ -6,6 +6,6 @@ namespace SmartRecruitmentMatchingPlatform.Interface.Services;
 public interface IMatchingService
 {
     MatchResultDto Calculate(
-        JobSeekerProfile profile,
+        JobSeekerProfile? profile,
         Vacancy vacancy);
 }

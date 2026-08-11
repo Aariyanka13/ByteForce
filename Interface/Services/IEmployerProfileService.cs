@@ -1,6 +1,6 @@
-﻿using SmartRecruitmentMatchingPlatform.DTOs.Employers;
+using SmartRecruitmentMatchingPlatform.DTOs.Employers;
 
-namespace SmartRecruitmentMatchingPlatform.Interfaces.Services;
+namespace SmartRecruitmentMatchingPlatform.Interface.Services;
 
 public interface IEmployerProfileService
 {

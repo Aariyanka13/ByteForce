@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 40" width="200" height="40" fill="none">
+  <defs>
+    <linearGradient id="bfBgGradFull" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#0EA5E9"/>
+    </linearGradient>
+    <linearGradient id="textGrad" x1="48" y1="0" x2="200" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#2563EB"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Icon Emblem -->
+  <g transform="translate(0, 0)">
+    <rect width="40" height="40" rx="10" fill="url(#bfBgGradFull)"/>
+    <path d="M12 9 H21 C24.3137 9 27 11.6863 27 15 C27 18.3137 24.3137 21 21 21 H12 V9 Z" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M12 21 H22 C25.3137 21 28 23.6863 28 27 C28 30.3137 25.3137 33 22 33 H12 V21 Z" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="21" cy="21" r="3.5" fill="white"/>
+    <circle cx="21" cy="21" r="2" fill="#2563EB"/>
+  </g>
+
+  <!-- Typography: ByteForce -->
+  <text x="52" y="27" font-family="Inter, system-ui, -apple-system, sans-serif" font-size="22" font-weight="800" fill="#0F172A" letter-spacing="-0.5">Byte<tspan fill="#2563EB">Force</tspan></text>
+</svg>

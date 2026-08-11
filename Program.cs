@@ -6,9 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SmartRecruitmentMatchingPlatform.Data;
 
-using SmartRecruitmentMatchingPlatform.Interfaces.Repositories;
-using SmartRecruitmentMatchingPlatform.Interfaces.Services;
-
 using SmartRecruitmentMatchingPlatform.Interface.Repositories;
 using SmartRecruitmentMatchingPlatform.Interface.Services;
 using SmartRecruitmentMatchingPlatform.Interface.Storage;
@@ -18,6 +15,7 @@ using SmartRecruitmentMatchingPlatform.Models.Entities;
 using SmartRecruitmentMatchingPlatform.Options;
 using SmartRecruitmentMatchingPlatform.Repositories;
 using SmartRecruitmentMatchingPlatform.Services;
+using SmartRecruitmentMatchingPlatform.Storage;
 
 namespace SmartRecruitmentMatchingPlatform
 {
@@ -33,6 +31,34 @@ namespace SmartRecruitmentMatchingPlatform
                     options.JsonSerializerOptions.Converters.Add(
                         new JsonStringEnumConverter());
                 });
+
+            builder.Services.Configure<Microsoft.AspNetCore.Mvc.ApiBehaviorOptions>(options =>
+            {
+                options.InvalidModelStateResponseFactory = actionContext =>
+                {
+                    var errors = actionContext.ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage)
+                        .Where(e => !string.IsNullOrWhiteSpace(e))
+                        .ToList();
+
+                    var combinedMessage = errors.Count > 0
+                        ? string.Join(" ", errors)
+                        : "One or more validation errors occurred.";
+
+                    return new Microsoft.AspNetCore.Mvc.BadRequestObjectResult(new
+                    {
+                        statusCode = 400,
+                        message = combinedMessage,
+                        errors = actionContext.ModelState
+                            .Where(e => e.Value?.Errors.Count > 0)
+                            .ToDictionary(
+                                k => k.Key,
+                                v => v.Value!.Errors.Select(e => e.ErrorMessage).ToArray()
+                            )
+                    });
+                };
+            });
 
             builder.Services.AddEndpointsApiExplorer();
 
@@ -119,22 +145,14 @@ namespace SmartRecruitmentMatchingPlatform
                 PasswordHasher<User>>();
 
             // Member 1
-            builder.Services.AddScoped<
-                IUserRepository,
-                UserRepository>();
+            builder.Services.AddScoped<IUserRepository,UserRepository>();
 
-            builder.Services.AddScoped<
-                IAuthService,
-                AuthService>();
+            builder.Services.AddScoped<IAuthService,AuthService>();
 
-            builder.Services.AddScoped<
-                IJwtTokenService,
-                JwtTokenService>();
+            builder.Services.AddScoped<IJwtTokenService,JwtTokenService>();
 
             // Member 3
-            builder.Services.AddScoped<
-                IEmployerProfileRepository,
-                EmployerProfileRepository>();
+            builder.Services.AddScoped<IEmployerProfileRepository,EmployerProfileRepository>();
 
             builder.Services.AddScoped<
                 IEmployerProfileService,
@@ -152,6 +170,22 @@ namespace SmartRecruitmentMatchingPlatform
             builder.Services.AddScoped<
                 IApplicationRepository,
                 ApplicationRepository>();
+
+            builder.Services.AddScoped<
+                IApplicationService,
+                ApplicationService>();
+
+            builder.Services.AddScoped<
+                IJobSearchRepository,
+                JobSearchRepository>();
+
+            builder.Services.AddScoped<
+                IJobSearchService,
+                JobSearchService>();
+
+            builder.Services.AddScoped<
+                IMatchingService,
+                MatchingService>();
 
             // Member 2
             builder.Services.AddScoped<
@@ -216,6 +250,8 @@ namespace SmartRecruitmentMatchingPlatform
                 var dbContext = scope.ServiceProvider
                     .GetRequiredService<ApplicationDbContext>();
 
+                dbContext.Database.Migrate();
+
                 var passwordHasher = scope.ServiceProvider
                     .GetRequiredService<IPasswordHasher<User>>();
 
@@ -234,6 +270,7 @@ namespace SmartRecruitmentMatchingPlatform
                 app.UseSwaggerUI();
             }
 
+            app.UseDefaultFiles();
             app.UseStaticFiles();
 
             app.UseHttpsRedirection();

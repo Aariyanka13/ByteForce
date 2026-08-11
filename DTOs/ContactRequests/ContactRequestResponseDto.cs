@@ -1,4 +1,4 @@
-﻿namespace SmartRecruitmentMatchingPlatform.DTOs.ContactRequests;
+namespace SmartRecruitmentMatchingPlatform.DTOs.ContactRequests;
 
 public class ContactRequestResponseDto
 {
@@ -15,4 +15,10 @@ public class ContactRequestResponseDto
     public DateTime CreatedAt { get; set; }
 
     public DateTime? RespondedAt { get; set; }
+
+    public string VacancyTitle { get; set; } = string.Empty;
+
+    public string CompanyName { get; set; } = string.Empty;
+
+    public string JobSeekerName { get; set; } = string.Empty;
 }

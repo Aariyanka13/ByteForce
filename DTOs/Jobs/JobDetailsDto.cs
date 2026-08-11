@@ -1,4 +1,4 @@
-﻿namespace SmartRecruitmentMatchingPlatform.DTOs.Jobs;
+namespace SmartRecruitmentMatchingPlatform.DTOs.Jobs;
 
 public class JobDetailsDto
 {
@@ -26,4 +26,6 @@ public class JobDetailsDto
     public bool HasApplied { get; set; }
 
     public int? ApplicationId { get; set; }
+
+    public DateTime PostedAt { get; set; }
 }

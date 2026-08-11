@@ -1,4 +1,4 @@
-﻿namespace SmartRecruitmentMatchingPlatform.DTOs.JobSeekers;
+namespace SmartRecruitmentMatchingPlatform.DTOs.JobSeekers;
 
 public class JobSeekerDashboardDto
 {
@@ -9,4 +9,6 @@ public class JobSeekerDashboardDto
     public int SkillCount { get; set; }
 
     public bool HasCv { get; set; }
+
+    public int TotalApplications { get; set; }
 }

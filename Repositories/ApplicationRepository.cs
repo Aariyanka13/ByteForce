@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SmartRecruitmentMatchingPlatform.Data;
 using SmartRecruitmentMatchingPlatform.Interface.Repositories;
 using SmartRecruitmentMatchingPlatform.Models.Entities;
@@ -26,6 +26,26 @@ public class ApplicationRepository : IApplicationRepository
         return await Applications.AnyAsync(a =>
             a.JobSeekerProfileId == profileId &&
             a.VacancyId == vacancyId);
+    }
+
+    public async Task<HashSet<int>> GetAppliedVacancyIdsAsync(
+        int profileId,
+        List<int> vacancyIds)
+    {
+        if (vacancyIds.Count == 0)
+        {
+            return new HashSet<int>();
+        }
+
+        var appliedIds = await Applications
+            .AsNoTracking()
+            .Where(a =>
+                a.JobSeekerProfileId == profileId &&
+                vacancyIds.Contains(a.VacancyId))
+            .Select(a => a.VacancyId)
+            .ToListAsync();
+
+        return appliedIds.ToHashSet();
     }
 
     public async Task<int?> GetApplicationIdAsync(

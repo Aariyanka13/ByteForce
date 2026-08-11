@@ -1,6 +1,6 @@
-﻿using SmartRecruitmentMatchingPlatform.DTOs.Auth;
+using SmartRecruitmentMatchingPlatform.DTOs.Auth;
 
-namespace SmartRecruitmentMatchingPlatform.Interfaces.Services;
+namespace SmartRecruitmentMatchingPlatform.Interface.Services;
 
 public interface IAuthService
 {

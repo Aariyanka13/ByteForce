@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications | ByteForce</title>
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <link rel="stylesheet" href="/css/utilities.css">
+</head>
+<body>
+  <div class="mb-6 flex items-center justify-between">
+    <div>
+      <h1 class="h1 mb-1">Notifications Center</h1>
+      <p>Stay updated on application status changes and employer requests.</p>
+    </div>
+    <button id="markAllReadBtn" class="btn btn-secondary btn-sm">Mark All as Read</button>
+  </div>
+
+  <div class="card" style="max-width: 800px;">
+    <div id="notificationsList" class="flex flex-col gap-3">
+      <div class="skeleton" style="height: 60px;"></div>
+    </div>
+  </div>
+
+  <script src="/js/core/constants.js"></script>
+  <script src="/js/core/storage.js"></script>
+  <script src="/js/core/api.js"></script>
+  <script src="/js/core/auth.js"></script>
+  <script src="/js/core/guards.js"></script>
+  <script src="/js/core/ui.js"></script>
+  <script src="/js/core/navigation.js"></script>
+  <script src="/js/shared/toast.js"></script>
+  <script src="/js/shared/modal.js"></script>
+  <script src="/js/shared/notifications.js"></script>
+  <script src="/jobseeker/notifications.js"></script>
+</body>
+</html>

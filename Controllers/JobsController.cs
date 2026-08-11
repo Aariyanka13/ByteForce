@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartRecruitmentMatchingPlatform.DTOs.Common;
 using SmartRecruitmentMatchingPlatform.DTOs.Jobs;
@@ -10,7 +10,7 @@ namespace SmartRecruitmentMatchingPlatform.Controllers;
 
 [ApiController]
 [Route("api/jobs")]
-[Authorize(Roles = "JobSeeker")]
+[Authorize(Roles = "JobSeeker,Administrator")]
 public class JobsController : ControllerBase
 {
     private readonly IJobSearchService _jobSearchService;

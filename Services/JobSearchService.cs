@@ -1,4 +1,4 @@
-﻿using SmartRecruitmentMatchingPlatform.DTOs.Common;
+using SmartRecruitmentMatchingPlatform.DTOs.Common;
 using SmartRecruitmentMatchingPlatform.DTOs.Jobs;
 using SmartRecruitmentMatchingPlatform.Exceptions;
 using SmartRecruitmentMatchingPlatform.Interface.Repositories;
@@ -34,12 +34,6 @@ public class JobSearchService : IJobSearchService
         var profile = await _jobSeekerRepository
             .GetWithDetailsByUserIdAsync(jobSeekerUserId);
 
-        if (profile is null)
-        {
-            throw new NotFoundException(
-                "Job seeker profile was not found.");
-        }
-
         var page = query.Page;
         var pageSize = query.PageSize;
 
@@ -54,6 +48,17 @@ public class JobSearchService : IJobSearchService
             page,
             pageSize);
 
+        var vacancyIds = result.Items
+            .Select(v => v.Id)
+            .ToList();
+
+        var appliedVacancyIds = profile != null
+            ? await _applicationRepository
+                .GetAppliedVacancyIdsAsync(
+                    profile.Id,
+                    vacancyIds)
+            : new HashSet<int>();
+
         var items = new List<JobListItemDto>();
 
         foreach (var vacancy in result.Items)
@@ -62,10 +67,7 @@ public class JobSearchService : IJobSearchService
                 profile,
                 vacancy);
 
-            var hasApplied =
-                await _applicationRepository.ExistsAsync(
-                    profile.Id,
-                    vacancy.Id);
+            var hasApplied = appliedVacancyIds.Contains(vacancy.Id);
 
             items.Add(new JobListItemDto
             {
@@ -87,7 +89,13 @@ public class JobSearchService : IJobSearchService
                 MissingSkillCount =
                     match.MissingSkills.Count,
 
-                HasApplied = hasApplied
+                HasApplied = hasApplied,
+
+                PostedAt = vacancy.CreatedAt,
+
+                RequiredExperienceYears = vacancy.RequiredExperienceYears,
+
+                RequiredEducationLevel = vacancy.RequiredEducationLevel.ToString()
             });
         }
 
@@ -179,7 +187,9 @@ public class JobSearchService : IJobSearchService
                 applicationId.HasValue,
 
             ApplicationId =
-                applicationId
+                applicationId,
+
+            PostedAt = vacancy.CreatedAt
         };
     }
 

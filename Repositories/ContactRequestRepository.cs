@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SmartRecruitmentMatchingPlatform.Data;
 using SmartRecruitmentMatchingPlatform.Interface.Repositories;
 using SmartRecruitmentMatchingPlatform.Models.Entities;
@@ -50,6 +50,11 @@ public class ContactRequestRepository : IContactRequestRepository
     {
         return await _context.ContactRequests
             .AsNoTracking()
+            .Include(x => x.JobApplication)
+                .ThenInclude(x => x.Vacancy)
+            .Include(x => x.EmployerProfile)
+            .Include(x => x.JobSeekerProfile)
+                .ThenInclude(x => x.User)
             .Where(x => x.EmployerProfileId == employerProfileId)
             .OrderByDescending(x => x.CreatedAt)
             .ToListAsync();
@@ -60,6 +65,11 @@ public class ContactRequestRepository : IContactRequestRepository
     {
         return await _context.ContactRequests
             .AsNoTracking()
+            .Include(x => x.JobApplication)
+                .ThenInclude(x => x.Vacancy)
+            .Include(x => x.EmployerProfile)
+            .Include(x => x.JobSeekerProfile)
+                .ThenInclude(x => x.User)
             .Where(x => x.JobSeekerProfileId == jobSeekerProfileId)
             .OrderByDescending(x => x.CreatedAt)
             .ToListAsync();

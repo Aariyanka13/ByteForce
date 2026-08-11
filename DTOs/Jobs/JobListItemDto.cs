@@ -1,4 +1,4 @@
-﻿namespace SmartRecruitmentMatchingPlatform.DTOs.Jobs;
+namespace SmartRecruitmentMatchingPlatform.DTOs.Jobs;
 
 public class JobListItemDto
 {
@@ -15,4 +15,10 @@ public class JobListItemDto
     public int MissingSkillCount { get; set; }
 
     public bool HasApplied { get; set; }
+
+    public DateTime PostedAt { get; set; }
+
+    public decimal RequiredExperienceYears { get; set; }
+
+    public string RequiredEducationLevel { get; set; } = string.Empty;
 }

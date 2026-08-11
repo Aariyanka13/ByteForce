@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Candidate Profile | ByteForce</title>
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <link rel="stylesheet" href="/css/utilities.css">
+</head>
+<body>
+  <div class="mb-6">
+    <h1 class="h1 mb-1">My Candidate Profile</h1>
+    <p>Keep your professional background updated for accurate vacancy matching.</p>
+  </div>
+
+  <div class="card" style="max-width: 720px;">
+    <form id="profileForm" novalidate>
+      <div class="grid grid-cols-2 gap-4 md:grid-cols-1">
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input type="text" id="fullName" class="form-control" disabled style="background-color: var(--surface-secondary);">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" id="email" class="form-control" disabled style="background-color: var(--surface-secondary);">
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 md:grid-cols-1">
+        <div class="form-group">
+          <label for="phone" class="form-label">Phone Number <span class="required">*</span></label>
+          <input type="tel" id="phone" class="form-control" placeholder="+1 (555) 000-0000" required>
+          <div class="invalid-feedback">Phone number is required.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="location" class="form-label">Current Location <span class="required">*</span></label>
+          <input type="text" id="location" class="form-control" placeholder="New York, NY" required>
+          <div class="invalid-feedback">Location is required.</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 md:grid-cols-1">
+        <div class="form-group">
+          <label for="experience" class="form-label">Total Experience (Years) <span class="required">*</span></label>
+          <input type="number" id="experience" class="form-control" min="0" max="50" step="0.5" placeholder="3.5" required>
+          <div class="invalid-feedback">Valid experience years required.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="education" class="form-label">Highest Education Level <span class="required">*</span></label>
+          <select id="education" class="form-control" required>
+            <option value="NoRequirement">No Requirement</option>
+            <option value="Certificate">Certificate</option>
+            <option value="Diploma">Diploma</option>
+            <option value="Bachelor">Bachelor Degree</option>
+            <option value="Master">Master Degree / PhD</option>
+          </select>
+          <div class="invalid-feedback">Education level is required.</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="summary" class="form-label">Professional Summary <span class="required">*</span></label>
+        <textarea id="summary" class="form-control" rows="5" placeholder="Briefly describe your technical expertise, career goals, and key achievements..." required></textarea>
+        <div class="invalid-feedback">Professional summary is required.</div>
+      </div>
+
+      <div class="flex items-center justify-end gap-3 mt-6">
+        <button type="submit" id="saveBtn" class="btn btn-primary btn-lg">
+          <span>Save Changes</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <script src="/js/core/constants.js"></script>
+  <script src="/js/core/storage.js"></script>
+  <script src="/js/core/api.js"></script>
+  <script src="/js/core/auth.js"></script>
+  <script src="/js/core/guards.js"></script>
+  <script src="/js/core/ui.js"></script>
+  <script src="/js/core/validators.js"></script>
+  <script src="/js/core/navigation.js"></script>
+  <script src="/js/shared/toast.js"></script>
+  <script src="/js/shared/modal.js"></script>
+  <script src="/js/shared/notifications.js"></script>
+  <script src="/jobseeker/profile.js"></script>
+</body>
+</html>

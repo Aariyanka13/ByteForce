@@ -1,9 +1,8 @@
-﻿using SmartRecruitmentMatchingPlatform.DTOs.Applications;
+using SmartRecruitmentMatchingPlatform.DTOs.Applications;
 using SmartRecruitmentMatchingPlatform.DTOs.Common;
 using SmartRecruitmentMatchingPlatform.Exceptions;
 using SmartRecruitmentMatchingPlatform.Interface.Repositories;
 using SmartRecruitmentMatchingPlatform.Interface.Services;
-using SmartRecruitmentMatchingPlatform.Interfaces.Repositories;
 using SmartRecruitmentMatchingPlatform.Models.Entities;
 using SmartRecruitmentMatchingPlatform.Models.Enums;
 

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Requests Log | ByteForce</title>
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <link rel="stylesheet" href="/css/utilities.css">
+</head>
+<body>
+  <div class="mb-6">
+    <h1 class="h1 mb-1">Sent Contact Requests Log</h1>
+    <p>Track request statuses for selected candidates and view unlocked contact details.</p>
+  </div>
+
+  <div class="table-wrapper mb-6">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Vacancy</th>
+          <th>Candidate</th>
+          <th>Sent Date</th>
+          <th>Status</th>
+          <th style="text-align: right;">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="empContactRequestsTableBody">
+        <tr><td colspan="5" class="text-center py-4">Loading contact requests...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script src="/js/core/constants.js?v=1.2"></script>
+  <script src="/js/core/storage.js?v=1.2"></script>
+  <script src="/js/core/api.js?v=1.2"></script>
+  <script src="/js/core/auth.js?v=1.2"></script>
+  <script src="/js/core/guards.js?v=1.2"></script>
+  <script src="/js/core/ui.js?v=1.2"></script>
+  <script src="/js/core/navigation.js?v=1.2"></script>
+  <script src="/js/shared/toast.js?v=1.2"></script>
+  <script src="/js/shared/modal.js?v=1.2"></script>
+  <script src="/js/shared/loader.js?v=1.2"></script>
+  <script src="/js/shared/notifications.js?v=1.2"></script>
+  <script src="/employer/contact-requests.js?v=1.2"></script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-﻿using SmartRecruitmentMatchingPlatform.Models.Entities;
+using SmartRecruitmentMatchingPlatform.Models.Entities;
 
 namespace SmartRecruitmentMatchingPlatform.Interface.Repositories;
 
@@ -8,4 +8,6 @@ public interface ISkillRepository
 
     Task<bool> AllExistAsync(
         IReadOnlyCollection<int> skillIds);
+
+    Task<Skill> GetOrCreateAsync(string name);
 }

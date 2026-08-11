@@ -1,4 +1,4 @@
-﻿using SmartRecruitmentMatchingPlatform.Models.Entities;
+using SmartRecruitmentMatchingPlatform.Models.Entities;
 using SmartRecruitmentMatchingPlatform.Models.Enums;
 
 namespace SmartRecruitmentMatchingPlatform.Interface.Repositories;
@@ -8,6 +8,10 @@ public interface IApplicationRepository
     Task<bool> ExistsAsync(
         int profileId,
         int vacancyId);
+
+    Task<HashSet<int>> GetAppliedVacancyIdsAsync(
+        int profileId,
+        List<int> vacancyIds);
 
     Task<int?> GetApplicationIdAsync(
         int profileId,

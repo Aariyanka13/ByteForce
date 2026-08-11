@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Text.Json;
 using SmartRecruitmentMatchingPlatform.Exceptions;
 
@@ -35,8 +35,8 @@ public class ExceptionHandlingMiddleware
     {
         var statusCode = exception switch
         {
-            BadRequestException => HttpStatusCode.BadRequest,
-            UnauthorizedException => HttpStatusCode.Unauthorized,
+            BadRequestException or ArgumentException => HttpStatusCode.BadRequest,
+            UnauthorizedException or UnauthorizedAccessException => HttpStatusCode.Unauthorized,
             ForbiddenException => HttpStatusCode.Forbidden,
             NotFoundException => HttpStatusCode.NotFound,
             ConflictException => HttpStatusCode.Conflict,

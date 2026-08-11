@@ -1,8 +1,7 @@
-﻿using SmartRecruitmentMatchingPlatform.DTOs.ContactRequests;
+using SmartRecruitmentMatchingPlatform.DTOs.ContactRequests;
 using SmartRecruitmentMatchingPlatform.Exceptions;
 using SmartRecruitmentMatchingPlatform.Interface.Repositories;
 using SmartRecruitmentMatchingPlatform.Interface.Services;
-using SmartRecruitmentMatchingPlatform.Interfaces.Repositories;
 using SmartRecruitmentMatchingPlatform.Models.Entities;
 using SmartRecruitmentMatchingPlatform.Models.Enums;
 
@@ -233,7 +232,10 @@ public class ContactRequestService : IContactRequestService
             JobSeekerProfileId = contactRequest.JobSeekerProfileId,
             Status = contactRequest.Status.ToString(),
             CreatedAt = contactRequest.CreatedAt,
-            RespondedAt = contactRequest.RespondedAt
+            RespondedAt = contactRequest.RespondedAt,
+            VacancyTitle = contactRequest.JobApplication?.Vacancy?.Title ?? string.Empty,
+            CompanyName = contactRequest.EmployerProfile?.CompanyName ?? string.Empty,
+            JobSeekerName = contactRequest.JobSeekerProfile?.User?.FullName ?? string.Empty
         };
     }
 }
